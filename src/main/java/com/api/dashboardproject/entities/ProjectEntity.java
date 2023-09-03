@@ -3,6 +3,8 @@ package com.api.dashboardproject.entities;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.api.dashboardproject.dtos.ProjectRequestDto;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,9 +14,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "project_tb")
 public class ProjectEntity {
@@ -32,4 +38,13 @@ public class ProjectEntity {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "responsible_id", nullable = false)
 	private ResponsibleEntity responsibleEntity;
+
+	public ProjectEntity(ProjectRequestDto dto) {
+		this.id = dto.getId();
+		this.name = dto.getName();
+		this.startDate = dto.getStartDate();
+		this.endDate = dto.getEndDate();
+		this.budget = dto.getBudget();
+		this.responsibleEntity.setId(dto.getId());
+	}
 }
