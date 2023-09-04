@@ -23,7 +23,6 @@ public class ResponsibleEntity {
 	private String name;
 	
 	public ResponsibleEntity(ResponsibleRequestDto dto) {
-		this.id = dto.getId();
 		this.name = dto.getName();
 	}
 }

@@ -1,14 +1,13 @@
 package com.api.dashboardproject.interfaces;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import com.api.dashboardproject.dtos.ResponsibleRequestDto;
-import com.api.dashboardproject.dtos.ResponsibleResponseDto;
+import com.api.dashboardproject.entities.ResponsibleEntity;
 
 public interface ResponsibleInterface {
-	ResponsibleResponseDto saveResponsible(ResponsibleRequestDto dto);
-	ResponsibleResponseDto editResponsible(String id, ResponsibleRequestDto dto);
-	List<ResponsibleResponseDto> getAllResponsible();
-	ResponsibleResponseDto getResponsibleById(String id);
+	ResponsibleEntity saveResponsible(ResponsibleEntity entity);
+	Page<ResponsibleEntity> getAllResponsible(Pageable pageable);
+	ResponsibleEntity getResponsibleById(String id);
 	void removeResponsibleById(String id);
 }
