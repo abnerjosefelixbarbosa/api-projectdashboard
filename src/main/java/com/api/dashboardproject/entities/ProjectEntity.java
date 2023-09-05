@@ -35,7 +35,7 @@ public class ProjectEntity {
 	private LocalDate endDate;
 	@Column(name = "budget", nullable = false, scale = 2)
 	private BigDecimal budget;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "responsible_id", nullable = false)
 	private ResponsibleEntity responsibleEntity;
 

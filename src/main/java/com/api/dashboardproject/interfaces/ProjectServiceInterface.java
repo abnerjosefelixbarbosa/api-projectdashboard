@@ -1,5 +1,7 @@
 package com.api.dashboardproject.interfaces;
 
-public interface ProjectServiceInterface extends ProjectInterface {
+import com.api.dashboardproject.entities.ProjectEntity;
 
+public interface ProjectServiceInterface extends ProjectInterface {
+	void validateProject(ProjectEntity entity);
 }

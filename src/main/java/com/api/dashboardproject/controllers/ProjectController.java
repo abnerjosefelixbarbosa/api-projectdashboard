@@ -19,6 +19,7 @@ import com.api.dashboardproject.dtos.ProjectRequestDto;
 import com.api.dashboardproject.dtos.ProjetcResponseDto;
 import com.api.dashboardproject.entities.ProjectEntity;
 import com.api.dashboardproject.interfaces.ProjectServiceInterface;
+import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
 
 import jakarta.validation.Valid;
 
@@ -28,10 +29,15 @@ import jakarta.validation.Valid;
 public class ProjectController {
 	@Autowired
 	private ProjectServiceInterface projectService;
+	@Autowired
+	private ResponsibleServiceInterface responsibleService;
 
 	@PostMapping(path = "/save")
 	public ResponseEntity<ProjetcResponseDto> saveProject(@RequestBody @Valid ProjectRequestDto dto) {
 		var entity = new ProjectEntity(dto);
+		var responsibleEntity = responsibleService.getResponsibleById(dto.getResponsibleId());
+		entity.setResponsibleEntity(responsibleEntity);
+		projectService.validateProject(entity);
 		return ResponseEntity.status(201).body(new ProjetcResponseDto(projectService.saveProject(entity)));
 	}
 
@@ -39,7 +45,10 @@ public class ProjectController {
 	public ResponseEntity<ProjetcResponseDto> editProject(@PathVariable String id,
 			@RequestBody @Valid ProjectRequestDto dto) {
 		var entity = projectService.getProjectById(id);
+		var responsibleEntity = responsibleService.getResponsibleById(dto.getResponsibleId());
 		BeanUtils.copyProperties(dto, entity);
+		entity.setResponsibleEntity(responsibleEntity);
+		projectService.validateProject(entity);
 		return ResponseEntity.status(200).body(new ProjetcResponseDto(projectService.saveProject(entity)));
 	}
 

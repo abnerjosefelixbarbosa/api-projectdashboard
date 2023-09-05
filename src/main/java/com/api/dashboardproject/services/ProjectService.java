@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.api.dashboardproject.entities.ProjectEntity;
+import com.api.dashboardproject.exceptions.EntityBadRequestException;
 import com.api.dashboardproject.interfaces.ProjectServiceInterface;
 import com.api.dashboardproject.repositories.ProjectRepository;
-import com.api.dashboardproject.repositories.ResponsibleRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -16,15 +16,16 @@ import jakarta.persistence.EntityNotFoundException;
 public class ProjectService implements ProjectServiceInterface {
 	@Autowired
 	private ProjectRepository projectRepository;
-	@Autowired
-	private ResponsibleRepository responsibleRepository;
 
 	public ProjectEntity saveProject(ProjectEntity entity) {
-		var responsibleEntity = responsibleRepository.findById(entity.getResponsibleEntity().getId()).orElseThrow(() -> {
-			throw new EntityNotFoundException("Responsible id not found");
-		});
-		entity.setResponsibleEntity(responsibleEntity);
 		return projectRepository.save(entity);
+	}
+
+	public void validateProject(ProjectEntity entity) {
+		if (entity.getStartDate().isAfter(entity.getEndDate()) || entity.getStartDate().isEqual(entity.getEndDate()))
+			throw new EntityBadRequestException("Date invalidate");
+		if (entity.getBudget().scale() != 2)
+			throw new EntityBadRequestException("Scale greater than 2");
 	}
 
 	public Page<ProjectEntity> getAllProjects(Pageable pageable) {
@@ -33,7 +34,7 @@ public class ProjectService implements ProjectServiceInterface {
 
 	public ProjectEntity getProjectById(String id) {
 		return projectRepository.findById(id).orElseThrow(() -> {
-			throw new EntityNotFoundException("Id not find");
+			throw new EntityNotFoundException("Project id not find");
 		});
 	}
 

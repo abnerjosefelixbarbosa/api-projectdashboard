@@ -27,7 +27,7 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 
 	public ResponsibleEntity getResponsibleById(String id) {
 		return responsibleRepository.findById(id).orElseThrow(() -> {
-			throw new EntityNotFoundException("Id not find");
+			throw new EntityNotFoundException("Responsible id not find");
 		});
 	}
 
