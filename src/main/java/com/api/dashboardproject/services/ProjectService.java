@@ -6,20 +6,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.api.dashboardproject.entities.ProjectEntity;
-import com.api.dashboardproject.exceptions.EntityNotFoundException;
 import com.api.dashboardproject.interfaces.ProjectServiceInterface;
-import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
 import com.api.dashboardproject.repositories.ProjectRepository;
+import com.api.dashboardproject.repositories.ResponsibleRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProjectService implements ProjectServiceInterface {
 	@Autowired
 	private ProjectRepository projectRepository;
 	@Autowired
-	private ResponsibleServiceInterface responsibleService;
+	private ResponsibleRepository responsibleRepository;
 
 	public ProjectEntity saveProject(ProjectEntity entity) {
-		var responsibleEntity =  responsibleService.getResponsibleById(entity.getResponsibleEntity().getId());
+		var responsibleEntity = responsibleRepository.findById(entity.getResponsibleEntity().getId()).orElseThrow(() -> {
+			throw new EntityNotFoundException("Responsible id not found");
+		});
 		entity.setResponsibleEntity(responsibleEntity);
 		return projectRepository.save(entity);
 	}

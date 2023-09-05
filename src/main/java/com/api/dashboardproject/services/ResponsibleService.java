@@ -7,9 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.api.dashboardproject.entities.ResponsibleEntity;
-import com.api.dashboardproject.exceptions.EntityNotFoundException;
 import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
 import com.api.dashboardproject.repositories.ResponsibleRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ResponsibleService implements ResponsibleServiceInterface {

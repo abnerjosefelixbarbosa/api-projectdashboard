@@ -28,32 +28,33 @@ import jakarta.validation.Valid;
 public class ProjectController {
 	@Autowired
 	private ProjectServiceInterface projectService;
-	
+
 	@PostMapping(path = "/save")
 	public ResponseEntity<ProjetcResponseDto> saveProject(@RequestBody @Valid ProjectRequestDto dto) {
-		var entity = new ProjectEntity(dto);	
+		var entity = new ProjectEntity(dto);
 		return ResponseEntity.status(201).body(new ProjetcResponseDto(projectService.saveProject(entity)));
 	}
-	
+
 	@PutMapping(path = "/edit/{id}")
-	public ResponseEntity<ProjetcResponseDto> editProject(@PathVariable String id, @RequestBody @Valid ProjectRequestDto dto) {
-		var entity = projectService.getProjectById(id);	
+	public ResponseEntity<ProjetcResponseDto> editProject(@PathVariable String id,
+			@RequestBody @Valid ProjectRequestDto dto) {
+		var entity = projectService.getProjectById(id);
 		BeanUtils.copyProperties(dto, entity);
 		return ResponseEntity.status(200).body(new ProjetcResponseDto(projectService.saveProject(entity)));
 	}
-	
+
 	@GetMapping(path = "/get-all")
 	public ResponseEntity<Page<ProjetcResponseDto>> getAllProjects(Pageable pageable) {
 		var entities = projectService.getAllProjects(pageable);
 		return ResponseEntity.status(200).body(entities.map(ProjetcResponseDto::new));
 	}
-	
+
 	@GetMapping(path = "/get/{id}")
 	public ResponseEntity<ProjetcResponseDto> getProjectById(@PathVariable String id) {
-		var entity = projectService.getProjectById(id);	
+		var entity = projectService.getProjectById(id);
 		return ResponseEntity.status(200).body(new ProjetcResponseDto(entity));
 	}
-	
+
 	@DeleteMapping(path = "/remover/{id}")
 	public ResponseEntity<ProjetcResponseDto> removerProjectById(@PathVariable String id) {
 		projectService.getProjectById(id);

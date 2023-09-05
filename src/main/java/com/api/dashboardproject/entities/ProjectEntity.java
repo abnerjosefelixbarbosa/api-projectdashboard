@@ -44,6 +44,7 @@ public class ProjectEntity {
 		this.startDate = dto.getStartDate();
 		this.endDate = dto.getEndDate();
 		this.budget = dto.getBudget();
+		this.responsibleEntity = new ResponsibleEntity();
 		this.responsibleEntity.setId(dto.getResponsibleId());
 	}
 }
