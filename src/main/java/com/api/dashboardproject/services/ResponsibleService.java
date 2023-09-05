@@ -17,20 +17,17 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 	private ResponsibleRepository responsibleRepository;
 
 	public ResponsibleEntity saveResponsible(ResponsibleEntity entity) {
-		var response = responsibleRepository.save(entity);
-		return response;
+		return responsibleRepository.save(entity);
 	}
 
 	public Page<ResponsibleEntity> getAllResponsible(Pageable pageable) {
-		var response = responsibleRepository.findAll(pageable);
-		return response;
+		return responsibleRepository.findAll(pageable);
 	}
 
 	public ResponsibleEntity getResponsibleById(String id) {
-		var response = responsibleRepository.findById(id).orElseThrow(() -> {
+		return responsibleRepository.findById(id).orElseThrow(() -> {
 			throw new EntityNotFoundException("Id not find");
 		});
-		return response;
 	}
 
 	public void removeResponsibleById(String id) {

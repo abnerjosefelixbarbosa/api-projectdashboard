@@ -1,15 +1,14 @@
 package com.api.dashboardproject.interfaces;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import com.api.dashboardproject.dtos.ProjectRequestDto;
-import com.api.dashboardproject.dtos.ProjetcResponseDto;
+import com.api.dashboardproject.entities.ProjectEntity;
 
 
 public interface ProjectInterface {
-	ProjetcResponseDto saveProject(ProjectRequestDto dto);
-	ProjetcResponseDto editProject(String id, ProjectRequestDto dto);
-	List<ProjetcResponseDto> getAllProjects();
-	ProjetcResponseDto getProjectById(String id);
+	ProjectEntity saveProject(ProjectEntity entity);
+	Page<ProjectEntity> getAllProjects(Pageable pageable);
+	ProjectEntity getProjectById(String id);
 	void removeProjectById(String id);
 }

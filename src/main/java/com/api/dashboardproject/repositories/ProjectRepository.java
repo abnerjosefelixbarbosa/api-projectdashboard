@@ -7,5 +7,5 @@ import com.api.dashboardproject.entities.ProjectEntity;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectEntity, String> {
-
+	
 }

@@ -40,11 +40,10 @@ public class ProjectEntity {
 	private ResponsibleEntity responsibleEntity;
 
 	public ProjectEntity(ProjectRequestDto dto) {
-		this.id = dto.getId();
 		this.name = dto.getName();
 		this.startDate = dto.getStartDate();
 		this.endDate = dto.getEndDate();
 		this.budget = dto.getBudget();
-		this.responsibleEntity.setId(dto.getId());
+		this.responsibleEntity.setId(dto.getResponsibleId());
 	}
 }
