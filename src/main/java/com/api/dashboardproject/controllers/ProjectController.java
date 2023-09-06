@@ -64,8 +64,8 @@ public class ProjectController {
 		return ResponseEntity.status(200).body(new ProjetcResponseDto(entity));
 	}
 
-	@DeleteMapping(path = "/remover/{id}")
-	public ResponseEntity<ProjetcResponseDto> removerProjectById(@PathVariable String id) {
+	@DeleteMapping(path = "/remove/{id}")
+	public ResponseEntity<ProjetcResponseDto> removeProjectById(@PathVariable String id) {
 		projectService.getProjectById(id);
 		projectService.removeProjectById(id);
 		return ResponseEntity.status(204).body(null);

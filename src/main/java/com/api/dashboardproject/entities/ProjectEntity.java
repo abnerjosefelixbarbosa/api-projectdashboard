@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 import com.api.dashboardproject.dtos.ProjectRequestDto;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,7 +34,7 @@ public class ProjectEntity {
 	private LocalDate endDate;
 	@Column(name = "budget", nullable = false, scale = 2)
 	private BigDecimal budget;
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
 	@JoinColumn(name = "responsible_id", nullable = false)
 	private ResponsibleEntity responsibleEntity;
 
