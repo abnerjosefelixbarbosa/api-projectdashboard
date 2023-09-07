@@ -12,13 +12,9 @@ import lombok.NoArgsConstructor;
 public class ResponsibleResponseDto {
 	private String id;
 	private String name;
-	private String email;
-	private String password;
 	
 	public ResponsibleResponseDto(ResponsibleEntity entity) {
 		this.id = entity.getId();
 		this.name = entity.getName();
-		this.email = entity.getEmail();
-		this.password = entity.getPassword();
 	}
 }

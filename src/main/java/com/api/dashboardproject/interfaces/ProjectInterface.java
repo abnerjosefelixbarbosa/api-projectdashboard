@@ -9,6 +9,7 @@ import com.api.dashboardproject.entities.ProjectEntity;
 public interface ProjectInterface {
 	ProjectEntity saveProject(ProjectEntity entity);
 	Page<ProjectEntity> getAllProjects(Pageable pageable);
+	Page<ProjectEntity> getAllProjectsByResponsibleId(String id, Pageable pageable);
 	ProjectEntity getProjectById(String id);
 	void removeProjectById(String id);
 }

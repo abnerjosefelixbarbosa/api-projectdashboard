@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +24,6 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/projects")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProjectController {
 	@Autowired
 	private ProjectServiceInterface projectService;
@@ -57,14 +55,20 @@ public class ProjectController {
 		var entities = projectService.getAllProjects(pageable);
 		return ResponseEntity.status(200).body(entities.map(ProjetcResponseDto::new));
 	}
+	
+	@GetMapping(path = "/get-all-by-responsible-id/{id}")
+	public ResponseEntity<Page<ProjetcResponseDto>> getAllProjectsByResponsibleId(@PathVariable String id, Pageable pageable) {
+		var entities = projectService.getAllProjectsByResponsibleId(id, pageable);
+		return ResponseEntity.status(200).body(entities.map(ProjetcResponseDto::new));
+	} 
 
-	@GetMapping(path = "/get/{id}")
+	@GetMapping(path = "/get-by-id/{id}")
 	public ResponseEntity<ProjetcResponseDto> getProjectById(@PathVariable String id) {
 		var entity = projectService.getProjectById(id);
 		return ResponseEntity.status(200).body(new ProjetcResponseDto(entity));
 	}
 
-	@DeleteMapping(path = "/remove/{id}")
+	@DeleteMapping(path = "/remove-by-id/{id}")
 	public ResponseEntity<ProjetcResponseDto> removeProjectById(@PathVariable String id) {
 		projectService.getProjectById(id);
 		projectService.removeProjectById(id);

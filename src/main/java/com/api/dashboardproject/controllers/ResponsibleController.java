@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +23,6 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/responsibles")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ResponsibleController {
 	@Autowired
 	private ResponsibleServiceInterface responsibleService;
@@ -49,13 +47,13 @@ public class ResponsibleController {
 		return ResponseEntity.status(200).body(entities.map(ResponsibleResponseDto::new));
 	}
 
-	@GetMapping(path = "/get/{id}")
+	@GetMapping(path = "/get-by-id/{id}")
 	public ResponseEntity<ResponsibleResponseDto> getResponsibleById(@PathVariable String id) {
 		var entity = responsibleService.getResponsibleById(id);
 		return ResponseEntity.status(200).body(new ResponsibleResponseDto(entity));
 	}
 
-	@DeleteMapping(path = "/remove/{id}")
+	@DeleteMapping(path = "/remove-by-id/{id}")
 	public ResponseEntity<ResponsibleResponseDto> removeResponsibleById(@PathVariable String id) {
 		responsibleService.getResponsibleById(id);
 		responsibleService.removeResponsibleById(id);

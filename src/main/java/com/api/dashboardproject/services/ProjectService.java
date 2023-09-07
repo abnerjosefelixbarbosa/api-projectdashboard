@@ -31,6 +31,10 @@ public class ProjectService implements ProjectServiceInterface {
 	public Page<ProjectEntity> getAllProjects(Pageable pageable) {
 		return projectRepository.findAll(pageable);
 	}
+	
+	public Page<ProjectEntity> getAllProjectsByResponsibleId(String id, Pageable pageable) {
+		return projectRepository.findAllByResponsibleEntityId(id, pageable);
+	}
 
 	public ProjectEntity getProjectById(String id) {
 		return projectRepository.findById(id).orElseThrow(() -> {
