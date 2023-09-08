@@ -8,8 +8,8 @@ import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
+/*
 @Data
 public class ProjectRequestDto {
 	@NotEmpty(message = "Name is empty")
@@ -27,4 +27,13 @@ public class ProjectRequestDto {
 	@NotEmpty(message = "Responsible id is empty")
 	@NotNull(message = "Responsible id is null")
 	private String responsibleId;
+}
+*/
+
+public record ProjectRequestDto(
+		@NotEmpty(message = "Name is empty") @NotNull(message = "Name is null") @Length(max = 100, message = "Name longer than 100 characters") String name,
+		@NotNull(message = "Date is null") @FutureOrPresent(message = "Date is invalid") LocalDate startDate,
+		@NotNull(message = "Date is null") @FutureOrPresent(message = "Date is invalid") LocalDate endDate,
+		@NotNull(message = "Budget is null") BigDecimal budget,
+		@NotEmpty(message = "Responsible id is empty") @NotNull(message = "Responsible id is null") String responsibleId) {
 }

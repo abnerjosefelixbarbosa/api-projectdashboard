@@ -12,10 +12,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SegurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.authorizeHttpRequests((configuration) -> {
-			configuration.anyRequest().permitAll();
+		return http.authorizeHttpRequests((val) -> {
+			val.anyRequest().permitAll();
 		})		
-		.headers((val) -> val.disable())
 		.sessionManagement((val) -> val.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.csrf((val) -> val.disable())
 		.build();

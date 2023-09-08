@@ -39,11 +39,11 @@ public class ProjectEntity {
 	private ResponsibleEntity responsibleEntity;
 
 	public ProjectEntity(ProjectRequestDto dto) {
-		this.name = dto.getName();
-		this.startDate = dto.getStartDate();
-		this.endDate = dto.getEndDate();
-		this.budget = dto.getBudget();
+		this.name = dto.name();
+		this.startDate = dto.startDate();
+		this.endDate = dto.endDate();
+		this.budget = dto.budget();
 		this.responsibleEntity = new ResponsibleEntity();
-		this.responsibleEntity.setId(dto.getResponsibleId());
+		this.responsibleEntity.setId(dto.responsibleId());
 	}
 }

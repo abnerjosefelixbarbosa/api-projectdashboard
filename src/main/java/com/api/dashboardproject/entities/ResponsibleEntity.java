@@ -32,6 +32,6 @@ public class ResponsibleEntity {
 	private List<ProjectEntity> projectEntities;
 	
 	public ResponsibleEntity(ResponsibleRequestDto dto) {
-		this.name = dto.getName();
+		this.name = dto.name();
 	}
 }
