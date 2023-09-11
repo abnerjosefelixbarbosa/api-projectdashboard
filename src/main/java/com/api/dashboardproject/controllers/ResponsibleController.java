@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.dashboardproject.dtos.AuthenticationRequestDto;
 import com.api.dashboardproject.dtos.ResponsibleRequestDto;
 import com.api.dashboardproject.dtos.ResponsibleResponseDto;
 import com.api.dashboardproject.entities.ResponsibleEntity;
@@ -26,6 +29,15 @@ import jakarta.validation.Valid;
 public class ResponsibleController {
 	@Autowired
 	private ResponsibleServiceInterface responsibleService;
+	//@Autowired
+	//private AuthenticationManager authenticationManager;
+	
+	@PostMapping(path = "/login")
+	public ResponseEntity<String> login(@RequestBody @Valid AuthenticationRequestDto dto) {
+		var usernamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
+		//var auth = this.authenticationManager.authenticate(usernamePassword); 
+		return ResponseEntity.status(200).build();
+	}
 
 	@PostMapping(path = "/save")
 	public ResponseEntity<ResponsibleResponseDto> saveResponsible(@RequestBody @Valid ResponsibleRequestDto dto) {

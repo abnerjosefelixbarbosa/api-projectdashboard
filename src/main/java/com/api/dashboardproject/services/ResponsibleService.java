@@ -4,6 +4,8 @@ package com.api.dashboardproject.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.api.dashboardproject.entities.ResponsibleEntity;
@@ -33,5 +35,9 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 
 	public void removeResponsibleById(String id) {
 		responsibleRepository.deleteById(id);
+	}
+
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return responsibleRepository.findByLogin(username);
 	}
 }
