@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +34,7 @@ public class ResponsibleController {
 	
 	@PostMapping(path = "/login")
 	public ResponseEntity<String> login(@RequestBody @Valid AuthenticationRequestDto dto) {
-		var usernamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
+		//var usernamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
 		//var auth = this.authenticationManager.authenticate(usernamePassword); 
 		return ResponseEntity.status(200).build();
 	}
