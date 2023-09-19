@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
@@ -26,25 +27,25 @@ import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
 public class SegurityConfiguration {
 	@Autowired
 	private ResponsibleServiceInterface responsibleService;
-	
+	@Autowired
+	private SecurityFilter securityFilter;
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(val -> val.disable())
-		    .authorizeHttpRequests(val -> {
-		    	val.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
-		    	val.requestMatchers(AntPathRequestMatcher.antMatcher("/responsibles/save")).permitAll();
-		    	val.requestMatchers(AntPathRequestMatcher.antMatcher("/responsibles/login")).permitAll();
-		    	val.anyRequest().authenticated();
-		    })
-		    .sessionManagement(val -> val.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			.httpBasic(Customizer.withDefaults())
-			.formLogin(Customizer.withDefaults());
+		http.csrf(val -> val.disable()).authorizeHttpRequests(val -> {
+			val.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
+			val.requestMatchers(AntPathRequestMatcher.antMatcher("/responsibles/save")).permitAll();
+			val.requestMatchers(AntPathRequestMatcher.antMatcher("/responsibles/login")).permitAll();
+			val.anyRequest().authenticated();
+		}).sessionManagement(val -> val.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.httpBasic(Customizer.withDefaults())
+				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
 
 	@Bean
-	public UserDetailsService  userDetailsService() {
+	public UserDetailsService userDetailsService() {
 		return responsibleService;
 	}
 
@@ -60,9 +61,9 @@ public class SegurityConfiguration {
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider;
 	}
-	
+
 	@Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
-        return auth.getAuthenticationManager();
-    }
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
+		return auth.getAuthenticationManager();
+	}
 }

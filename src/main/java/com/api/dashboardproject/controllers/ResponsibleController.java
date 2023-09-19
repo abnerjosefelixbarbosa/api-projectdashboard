@@ -7,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.dashboardproject.dtos.AuthenticationRequestDto;
+import com.api.dashboardproject.dtos.AuthenticationResponseDto;
 import com.api.dashboardproject.dtos.ResponsibleRequestDto;
 import com.api.dashboardproject.dtos.ResponsibleResponseDto;
 import com.api.dashboardproject.entities.ResponsibleEntity;
 import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
-import com.api.dashboardproject.services.JwtService;
+import com.api.dashboardproject.services.TokenService;
 
 import jakarta.validation.Valid;
 
@@ -35,18 +34,17 @@ public class ResponsibleController {
 	@Autowired
 	private ResponsibleServiceInterface responsibleService;
 	@Autowired
-	private JwtService jwtService; 
+    private TokenService tokenService;
 	@Autowired
     private AuthenticationManager authenticationManager;
 	
 	@PostMapping(path = "/login")
-	public ResponseEntity<String> login(@RequestBody @Valid AuthenticationRequestDto dto) {
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getLogin(), dto.getPassword()));
-        if (authentication.isAuthenticated()) {
-        	return ResponseEntity.status(200).body(jwtService.generateToken(dto.getLogin()));
-        } else {
-            throw new UsernameNotFoundException("Login not found");
-        }
+	public ResponseEntity<AuthenticationResponseDto> login(@RequestBody @Valid AuthenticationRequestDto dto) {
+		var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getLogin(), dto.getPassword());
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+        
+        var token = tokenService.generateToken((ResponsibleEntity) auth.getPrincipal());
+        return ResponseEntity.status(200).body(new AuthenticationResponseDto(token));
 	}
 
 	@PostMapping(path = "/save")
