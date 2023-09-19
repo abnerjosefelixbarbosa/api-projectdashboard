@@ -24,5 +24,7 @@ public class ResponsibleRequestDto {
 	@NotNull(message = "Password is null")
 	@Length(max = 100, message = "Passwor great than 100 characters")
 	private String password;
+	@NotEmpty(message = "Role is empty")
+	@NotNull(message = "Role is null")
 	private String role;
 }

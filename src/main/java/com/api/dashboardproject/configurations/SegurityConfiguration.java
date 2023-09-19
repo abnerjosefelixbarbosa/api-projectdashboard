@@ -1,5 +1,6 @@
 package com.api.dashboardproject.configurations;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -9,32 +10,39 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SegurityConfiguration {
+	@Autowired
+	private ResponsibleServiceInterface responsibleService;
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(val -> val.disable())
-		    .authorizeHttpRequests(val -> val.anyRequest().authenticated())
+		    .authorizeHttpRequests(val -> {
+		    	val.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
+		    	val.requestMatchers(AntPathRequestMatcher.antMatcher("/responsibles/save")).permitAll();
+		    	val.anyRequest().authenticated();
+		    })
 		    .sessionManagement(val -> val.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			.httpBasic(Customizer.withDefaults());
+			.httpBasic(Customizer.withDefaults())
+			.formLogin(Customizer.withDefaults());
 
 		return http.build();
 	}
 
 	@Bean
-	public InMemoryUserDetailsManager userDetailsService() {
-		var user1 = User.builder().username("user1").password(passwordEncoder().encode("123")).roles("ADMIN")
-				.build();
-
-		return new InMemoryUserDetailsManager(user1);
+	public UserDetailsService  userDetailsService() {
+		return responsibleService;
 	}
 
 	@Bean

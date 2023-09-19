@@ -29,13 +29,9 @@ import jakarta.validation.Valid;
 public class ResponsibleController {
 	@Autowired
 	private ResponsibleServiceInterface responsibleService;
-	//@Autowired
-	//private AuthenticationManager authenticationManager;
 	
 	@PostMapping(path = "/login")
 	public ResponseEntity<String> login(@RequestBody @Valid AuthenticationRequestDto dto) {
-		//var usernamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
-		//var auth = this.authenticationManager.authenticate(usernamePassword); 
 		return ResponseEntity.status(200).build();
 	}
 

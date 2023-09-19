@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.api.dashboardproject.dtos.ResponsibleRequestDto;
 
@@ -38,10 +39,11 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	private String id;
 	@Column(name = "name", nullable = false, length = 100)
 	private String name;
-	@Column(name = "login", nullable = false, length = 100)
+	@Column(name = "login", nullable = false, unique = true, length = 100)
 	private String login;
-	@Column(name = "password", nullable = false, length = 100)
+	@Column(name = "password", nullable = false, unique = true, length = 100)
 	private String password;
+	@Column(name = "role", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ResponsibleRole role;
 	@OneToMany(mappedBy = "responsibleEntity")
@@ -49,7 +51,7 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	private List<ProjectEntity> projectEntities;
 
 	public ResponsibleEntity(ResponsibleRequestDto dto) {
-		this(null, dto.getName(), dto.getLogin(), dto.getPassword(), ResponsibleRole.valueOf("admin"), null);
+		this(null, dto.getName(), dto.getLogin(), new BCryptPasswordEncoder().encode(dto.getPassword()), ResponsibleRole.valueOf(dto.getRole()), null);
 	}
 
 	@Override

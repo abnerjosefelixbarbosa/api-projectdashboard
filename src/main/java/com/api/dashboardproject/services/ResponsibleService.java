@@ -37,7 +37,9 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 		responsibleRepository.deleteById(id);
 	}
 
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return responsibleRepository.findByLogin(username);
+	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+		return responsibleRepository.findByLogin(login).orElseThrow(() -> {
+			throw new UsernameNotFoundException("login not found");
+		});
 	}
 }
