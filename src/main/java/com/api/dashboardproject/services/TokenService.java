@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.api.dashboardproject.entities.ResponsibleEntity;
@@ -15,12 +14,11 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 
 @Service
 public class TokenService {
-	    @Value("${api.security.token.secret}")
-	    private String secret;
+	    public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
 	    public String generateToken(ResponsibleEntity entity){
 	        try{
-	            Algorithm algorithm = Algorithm.HMAC256(secret);
+	            Algorithm algorithm = Algorithm.HMAC256(SECRET);
 	            String token = JWT.create()
 	                    .withIssuer("auth-api")
 	                    .withSubject(entity.getLogin())
@@ -34,7 +32,7 @@ public class TokenService {
 
 	    public String validateToken(String token){
 	        try {
-	            Algorithm algorithm = Algorithm.HMAC256(secret);
+	            Algorithm algorithm = Algorithm.HMAC256(SECRET);
 	            return JWT.require(algorithm)
 	                    .withIssuer("auth-api")
 	                    .build()
