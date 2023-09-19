@@ -3,9 +3,11 @@ package com.api.dashboardproject.configurations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,6 +33,7 @@ public class SegurityConfiguration {
 		    .authorizeHttpRequests(val -> {
 		    	val.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
 		    	val.requestMatchers(AntPathRequestMatcher.antMatcher("/responsibles/save")).permitAll();
+		    	val.requestMatchers(AntPathRequestMatcher.antMatcher("/responsibles/login")).permitAll();
 		    	val.anyRequest().authenticated();
 		    })
 		    .sessionManagement(val -> val.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -57,4 +60,9 @@ public class SegurityConfiguration {
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider;
 	}
+	
+	@Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
+        return auth.getAuthenticationManager();
+    }
 }

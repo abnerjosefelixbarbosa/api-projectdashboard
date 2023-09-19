@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +24,7 @@ import com.api.dashboardproject.dtos.ResponsibleRequestDto;
 import com.api.dashboardproject.dtos.ResponsibleResponseDto;
 import com.api.dashboardproject.entities.ResponsibleEntity;
 import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
+import com.api.dashboardproject.services.JwtService;
 
 import jakarta.validation.Valid;
 
@@ -29,10 +34,19 @@ import jakarta.validation.Valid;
 public class ResponsibleController {
 	@Autowired
 	private ResponsibleServiceInterface responsibleService;
+	@Autowired
+	private JwtService jwtService; 
+	@Autowired
+    private AuthenticationManager authenticationManager;
 	
 	@PostMapping(path = "/login")
 	public ResponseEntity<String> login(@RequestBody @Valid AuthenticationRequestDto dto) {
-		return ResponseEntity.status(200).build();
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getLogin(), dto.getPassword()));
+        if (authentication.isAuthenticated()) {
+        	return ResponseEntity.status(200).body(jwtService.generateToken(dto.getLogin()));
+        } else {
+            throw new UsernameNotFoundException("Login not found");
+        }
 	}
 
 	@PostMapping(path = "/save")
