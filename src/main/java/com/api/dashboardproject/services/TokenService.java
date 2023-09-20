@@ -7,14 +7,15 @@ import java.time.ZoneOffset;
 import org.springframework.stereotype.Service;
 
 import com.api.dashboardproject.entities.ResponsibleEntity;
+import com.api.dashboardproject.interfaces.TokenServiceInterface;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 @Service
-public class TokenService {
-	    public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+public class TokenService implements TokenServiceInterface {
+	    private static final String SECRET = "1";
 
 	    public String generateToken(ResponsibleEntity entity){
 	        try{

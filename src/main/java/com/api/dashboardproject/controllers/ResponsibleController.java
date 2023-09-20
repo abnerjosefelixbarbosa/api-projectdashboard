@@ -23,8 +23,9 @@ import com.api.dashboardproject.dtos.ResponsibleRequestDto;
 import com.api.dashboardproject.dtos.ResponsibleResponseDto;
 import com.api.dashboardproject.entities.ResponsibleEntity;
 import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
-import com.api.dashboardproject.services.TokenService;
+import com.api.dashboardproject.interfaces.TokenServiceInterface;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @RestController
@@ -34,17 +35,20 @@ public class ResponsibleController {
 	@Autowired
 	private ResponsibleServiceInterface responsibleService;
 	@Autowired
-    private TokenService tokenService;
+    private TokenServiceInterface tokenService;
 	@Autowired
     private AuthenticationManager authenticationManager;
 	
 	@PostMapping(path = "/login")
-	public ResponseEntity<AuthenticationResponseDto> login(@RequestBody @Valid AuthenticationRequestDto dto) {
+	public ResponseEntity<Object> login(@RequestBody @Valid AuthenticationRequestDto dto, HttpSession session) {
 		var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getLogin(), dto.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
+        var responsible = (ResponsibleEntity) responsibleService.loadUserByUsername(dto.getLogin());
         
         var token = tokenService.generateToken((ResponsibleEntity) auth.getPrincipal());
-        return ResponseEntity.status(200).body(new AuthenticationResponseDto(token));
+        session.setAttribute("SESSION", new AuthenticationResponseDto(responsible, token));
+        
+        return ResponseEntity.status(200).body(session.getAttribute("SESSION"));
 	}
 
 	@PostMapping(path = "/save")

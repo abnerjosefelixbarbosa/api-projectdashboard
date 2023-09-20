@@ -1,6 +1,5 @@
 package com.api.dashboardproject.services;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.api.dashboardproject.entities.ResponsibleEntity;
+import com.api.dashboardproject.exceptions.EntityBadRequestException;
 import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
 import com.api.dashboardproject.repositories.ResponsibleRepository;
 
@@ -20,6 +20,7 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 	private ResponsibleRepository responsibleRepository;
 
 	public ResponsibleEntity saveResponsible(ResponsibleEntity entity) {
+		validation(entity);
 		return responsibleRepository.save(entity);
 	}
 
@@ -39,7 +40,14 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 		return responsibleRepository.findByLogin(login).orElseThrow(() -> {
-			throw new UsernameNotFoundException("login not found");
+			throw new UsernameNotFoundException("Login not found");
 		});
+	}
+
+	private void validation(ResponsibleEntity entity) {
+		if (responsibleRepository.existsByLogin(entity.getLogin()))
+			throw new EntityBadRequestException("Login exists");
+		if (responsibleRepository.existsByPassword(entity.getPassword()))
+			throw new EntityBadRequestException("Password exists");
 	}
 }

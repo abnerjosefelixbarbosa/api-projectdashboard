@@ -57,7 +57,7 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		if (this.role == ResponsibleRole.ADMIN)
-			return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+			return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		else
 			return List.of(new SimpleGrantedAuthority("ROLE_USER"));
 	}
