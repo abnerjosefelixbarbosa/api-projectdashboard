@@ -9,7 +9,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.api.dashboardproject.dtos.ResponsibleRequestDto;
 
@@ -51,7 +50,7 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	private List<ProjectEntity> projectEntities;
 
 	public ResponsibleEntity(ResponsibleRequestDto dto) {
-		this(null, dto.getName(), dto.getLogin(), new BCryptPasswordEncoder().encode(dto.getPassword()), ResponsibleRole.valueOf(dto.getRole()), null);
+		this(null, dto.getName(), dto.getLogin(), dto.getPassword(), ResponsibleRole.valueOf(dto.getRole()), null);
 	}
 
 	@Override

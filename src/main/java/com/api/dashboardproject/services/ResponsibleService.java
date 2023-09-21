@@ -5,22 +5,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.dashboardproject.entities.ResponsibleEntity;
-import com.api.dashboardproject.exceptions.EntityBadRequestException;
 import com.api.dashboardproject.interfaces.ResponsibleServiceInterface;
 import com.api.dashboardproject.repositories.ResponsibleRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ResponsibleService implements ResponsibleServiceInterface {
 	@Autowired
-	private ResponsibleRepository responsibleRepository;
+	private ResponsibleRepository responsibleRepository; 
 
+	@Transactional
 	public ResponsibleEntity saveResponsible(ResponsibleEntity entity) {
-		validation(entity);
+		BCryptPasswordEncoder crypt = new BCryptPasswordEncoder();
+		var encoder = crypt.encode(entity.getPassword());
+		entity.setPassword(encoder);
+		validateEncoder(entity);
 		return responsibleRepository.save(entity);
 	}
 
@@ -44,10 +49,11 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 		});
 	}
 
-	private void validation(ResponsibleEntity entity) {
-		if (responsibleRepository.existsByLogin(entity.getLogin()))
-			throw new EntityBadRequestException("Login exists");
-		if (responsibleRepository.existsByPassword(entity.getPassword()))
-			throw new EntityBadRequestException("Password exists");
+	private void validateEncoder(ResponsibleEntity entity) {
+		//var response = (ResponsibleEntity) responsibleRepository.findByLogin(entity.getLogin()).orElse(new ResponsibleEntity());
+		
+			//if (crypt.matches(entity.getPassword(), response.getPassword()))
+				//throw new EntityBadRequestException("Password");
+		//authenticationProvider.getUserCache().
 	}
 }

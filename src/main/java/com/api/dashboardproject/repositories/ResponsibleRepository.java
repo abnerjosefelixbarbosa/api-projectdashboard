@@ -12,6 +12,4 @@ import com.api.dashboardproject.entities.ResponsibleEntity;
 @Repository
 public interface ResponsibleRepository extends JpaRepository<ResponsibleEntity, String> {
 	Optional<UserDetails> findByLogin(String login);
-	boolean existsByLogin(String login);
-	boolean existsByPassword(String password);
 }
