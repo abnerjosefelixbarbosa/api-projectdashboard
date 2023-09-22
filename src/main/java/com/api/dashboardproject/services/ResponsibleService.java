@@ -18,14 +18,13 @@ import jakarta.transaction.Transactional;
 @Service
 public class ResponsibleService implements ResponsibleServiceInterface {
 	@Autowired
-	private ResponsibleRepository responsibleRepository; 
+	private ResponsibleRepository responsibleRepository;
 
 	@Transactional
 	public ResponsibleEntity saveResponsible(ResponsibleEntity entity) {
-		BCryptPasswordEncoder crypt = new BCryptPasswordEncoder();
-		var encoder = crypt.encode(entity.getPassword());
+		validateEncoder(entity.getLogin(), entity.getPassword());
+		var encoder = crypt().encode(entity.getPassword());
 		entity.setPassword(encoder);
-		validateEncoder(entity);
 		return responsibleRepository.save(entity);
 	}
 
@@ -43,17 +42,21 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 		responsibleRepository.deleteById(id);
 	}
 
-	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String login) {
 		return responsibleRepository.findByLogin(login).orElseThrow(() -> {
 			throw new UsernameNotFoundException("Login not found");
 		});
 	}
 
-	private void validateEncoder(ResponsibleEntity entity) {
-		//var response = (ResponsibleEntity) responsibleRepository.findByLogin(entity.getLogin()).orElse(new ResponsibleEntity());
-		
-			//if (crypt.matches(entity.getPassword(), response.getPassword()))
-				//throw new EntityBadRequestException("Password");
-		//authenticationProvider.getUserCache().
+	private void validateEncoder(String login, String password) {
+		var matches = responsibleRepository.findAll().stream()
+				.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getLogin()));
+
+		if (matches)
+			throw new EntityNotFoundException("Login or password exists");
+	}
+
+	private BCryptPasswordEncoder crypt() {
+		return new BCryptPasswordEncoder();
 	}
 }
