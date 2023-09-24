@@ -17,11 +17,12 @@
 - Spring boot
 - JPA hibernate
 - Maven
-- Postgree
+- Postgree database
 - Validation
 - Lombok
 - Junit
 - Swagger
+- SOLID 
  
 # Project execution
 
