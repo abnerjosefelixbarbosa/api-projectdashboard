@@ -40,15 +40,13 @@ public class ResponsibleController {
     private AuthenticationManager authenticationManager;
 	
 	@PostMapping(path = "/login")
-	public ResponseEntity<Object> login(@RequestBody @Valid AuthenticationRequestDto dto, HttpSession session) {
+	public ResponseEntity<AuthenticationResponseDto> login(@RequestBody @Valid AuthenticationRequestDto dto, HttpSession session) {
 		var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getLogin(), dto.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var responsible = (ResponsibleEntity) responsibleService.loadUserByUsername(dto.getLogin());
         
         var token = tokenService.generateToken((ResponsibleEntity) auth.getPrincipal());
-        session.setAttribute("SESSION", new AuthenticationResponseDto(responsible, token));
-        
-        return ResponseEntity.status(200).body(session.getAttribute("SESSION"));
+        return ResponseEntity.status(200).body(new AuthenticationResponseDto(responsible, token));
 	}
 
 	@PostMapping(path = "/save")
