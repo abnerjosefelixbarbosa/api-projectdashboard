@@ -50,10 +50,10 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 	}
 
 	private void validateEncoder(String login, String password) {
-		var matches = responsibleRepository.findAll().stream();
-		var response = matches.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getLogin()));
+		var stream = responsibleRepository.findAll().stream();
+		var matches = stream.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getLogin()));
 		
-		if (response)
+		if (matches)
 			throw new EntityBadRequestException("Login or password exists");
 	}
 
