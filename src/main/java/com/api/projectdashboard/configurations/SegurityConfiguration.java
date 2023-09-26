@@ -30,18 +30,20 @@ public class SegurityConfiguration {
 	@Autowired
 	private SecurityFilter securityFilter;
 
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(val -> val.disable()).authorizeHttpRequests(val -> {
-			val.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
-			val.requestMatchers(AntPathRequestMatcher.antMatcher("/responsibles/save")).permitAll();
-			val.requestMatchers(AntPathRequestMatcher.antMatcher("/responsibles/login")).permitAll();
+		return http.csrf((val) -> { 
+		    val.disable();
+		})
+		.authorizeHttpRequests((val) -> {
+			val.requestMatchers(AUTH_WHITELIST).permitAll();
 			val.anyRequest().authenticated();
-		}).sessionManagement(val -> val.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.httpBasic(Customizer.withDefaults())
-				.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
-
-		return http.build();
+		})
+		.sessionManagement((val) -> val.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+		.httpBasic(Customizer.withDefaults())
+		.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+		.build();
 	}
 
 	@Bean
@@ -66,4 +68,14 @@ public class SegurityConfiguration {
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
 		return auth.getAuthenticationManager();
 	}
+	
+	private static final AntPathRequestMatcher[] AUTH_WHITELIST = {
+			AntPathRequestMatcher.antMatcher("/api/v1/auth/**"),
+			AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
+			AntPathRequestMatcher.antMatcher("/v3/api-docs.yaml"),
+			AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
+			AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
+			AntPathRequestMatcher.antMatcher("/responsibles/save"),
+			AntPathRequestMatcher.antMatcher("/responsibles/login")
+	};
 }
