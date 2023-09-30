@@ -1,4 +1,4 @@
-package com.api.projectdashboard.service;
+package com.api.projectdashboard.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +12,7 @@ import com.api.projectdashboard.entities.ResponsibleEntity;
 import com.api.projectdashboard.exceptions.EntityBadRequestException;
 import com.api.projectdashboard.interfaces.ResponsibleServiceInterface;
 import com.api.projectdashboard.repositories.ResponsibleRepository;
+import com.api.projectdashboard.repositories.RoleRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -20,12 +21,20 @@ import jakarta.transaction.Transactional;
 public class ResponsibleService implements ResponsibleServiceInterface {
 	@Autowired
 	private ResponsibleRepository responsibleRepository;
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Transactional
 	public ResponsibleEntity saveResponsible(ResponsibleEntity entity) {
 		validateEncoder(entity.getLogin(), entity.getPassword());
 		var encoder = crypt().encode(entity.getPassword());
 		entity.setPassword(encoder);
+		
+		 var roleEntity = roleRepository.findByName(entity.getRoleEntity().getName()).orElseThrow(() -> {
+			 throw new EntityNotFoundException("Role name not found");
+		 });		 
+		 entity.setRoleEntity(roleEntity);
+		
 		return responsibleRepository.save(entity);
 	}
 

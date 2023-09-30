@@ -1,0 +1,1 @@
+INSERT INTO role_tb (id, name) VALUES ('c3443072-0aa4-4453-adb0-5766325ca384', 'ADMIN');

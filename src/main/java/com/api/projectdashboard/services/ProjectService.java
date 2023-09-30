@@ -1,4 +1,4 @@
-package com.api.projectdashboard.service;
+package com.api.projectdashboard.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

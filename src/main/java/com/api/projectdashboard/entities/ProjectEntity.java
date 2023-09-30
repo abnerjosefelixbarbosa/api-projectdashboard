@@ -29,13 +29,13 @@ public class ProjectEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
-	@Column(name = "name", nullable = false, length = 100)
+	@Column(nullable = false, length = 100)
 	private String name;
-	@Column(name = "start_date", nullable = false)
+	@Column(nullable = false)
 	private LocalDate startDate;
-	@Column(name = "end_date", nullable = false)
+	@Column(nullable = false)
 	private LocalDate endDate;
-	@Column(name = "budget", nullable = false, scale = 2)
+	@Column(nullable = false, scale = 2)
 	private BigDecimal budget;
 	@ManyToOne
 	@JoinColumn(name = "responsible_id", nullable = false)

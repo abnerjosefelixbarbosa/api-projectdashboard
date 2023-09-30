@@ -1,4 +1,4 @@
-package com.api.projectdashboard.service;
+package com.api.projectdashboard.services;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

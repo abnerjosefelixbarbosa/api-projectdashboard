@@ -14,11 +14,11 @@ import com.api.projectdashboard.dtos.ResponsibleRequestDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -36,26 +36,27 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
-	@Column(name = "name", nullable = false, length = 100)
+	@Column(nullable = false, length = 100)
 	private String name;
-	@Column(name = "login", nullable = false, unique = true, length = 100)
+	@Column(nullable = false, unique = true, length = 100)
 	private String login;
-	@Column(name = "password", nullable = false, unique = true, length = 100)
+	@Column(nullable = false, unique = true, length = 100)
 	private String password;
-	@Column(name = "role", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private ResponsibleRole role;
+	@ManyToOne
+	@JoinColumn(name = "role_id", nullable = false)
+	private RoleEntity roleEntity;
 	@OneToMany(mappedBy = "responsibleEntity")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<ProjectEntity> projectEntities;
 
 	public ResponsibleEntity(ResponsibleRequestDto dto) {
-		this(null, dto.getName(), dto.getLogin(), dto.getPassword(), ResponsibleRole.valueOf(dto.getRole()), null);
+		this (null, dto.getName(), dto.getLogin(), dto.getPassword(), new RoleEntity(), null);
+		this.roleEntity.setName(dto.getRole());
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		if (this.role == ResponsibleRole.ADMIN)
+		if (this.roleEntity.getName() == "ADMIN")
 			return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		else
 			return List.of(new SimpleGrantedAuthority("ROLE_USER"));
