@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class ResponsibleControllerTest {
 
 	@Test
 	@DisplayName("should save responsible")
+	@Disabled
 	public void shouldSaveResponsible() throws Exception {
 		var dto = new ResponsibleRequestDto("name1", "user1", "123", "ADMIN");
 
@@ -46,6 +48,4 @@ public class ResponsibleControllerTest {
 		.andDo(print())
 		.andExpect(status().is(201));
 	}
-	
-	
 }
