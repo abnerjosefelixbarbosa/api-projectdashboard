@@ -37,7 +37,7 @@ public class SegurityConfiguration {
 		})
 		.authorizeHttpRequests((val) -> {
 			val.requestMatchers(AUTH_WHITELIST).permitAll();
-			val.anyRequest().authenticated();
+			val.anyRequest().permitAll();
 		})
 		.sessionManagement((val) -> val.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.httpBasic(Customizer.withDefaults())
