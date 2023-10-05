@@ -60,7 +60,8 @@ public class ResponsibleController {
 			@RequestBody @Valid ResponsibleRequestDto dto) {
 		var entity = responsibleService.getResponsibleById(id);
 		BeanUtils.copyProperties(dto, entity);
-		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.saveResponsible(entity)));
+		//return ResponseEntity.status(200).body(null);
+		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsible(entity)));
 	}
 
 	@GetMapping(path = "/get-all")
