@@ -1,6 +1,5 @@
 package com.api.projectdashboard.controllers;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,10 +57,8 @@ public class ResponsibleController {
 	@PutMapping(path = "/edit/{id}")
 	public ResponseEntity<ResponsibleResponseDto> editResponsible(@PathVariable String id,
 			@RequestBody @Valid ResponsibleRequestDto dto) {
-		var entity = responsibleService.getResponsibleById(id);
-		BeanUtils.copyProperties(dto, entity);
-		//return ResponseEntity.status(200).body(null);
-		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsible(entity)));
+		var entity = new ResponsibleEntity(dto);
+		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsible(id, entity)));
 	}
 
 	@GetMapping(path = "/get-all")

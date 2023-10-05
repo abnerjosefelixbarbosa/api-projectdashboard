@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.projectdashboard.entities.ResponsibleEntity;
+import com.api.projectdashboard.entities.RoleEntity;
 import com.api.projectdashboard.exceptions.EntityBadRequestException;
 import com.api.projectdashboard.interfaces.ResponsibleServiceInterface;
 import com.api.projectdashboard.repositories.ResponsibleRepository;
@@ -27,29 +28,36 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 	@Transactional
 	public ResponsibleEntity saveResponsible(ResponsibleEntity entity) {
 		validateEncoder(entity.getLogin(), entity.getPassword());
+		
 		var encoder = crypt().encode(entity.getPassword());
 		entity.setPassword(encoder);
-		
-		 var roleEntity = roleRepository.findByName(entity.getRoleEntity().getName()).orElseThrow(() -> {
-			 throw new EntityNotFoundException("Role name not found");
-		 });		 
-		 entity.setRoleEntity(roleEntity);
-		
+		var roleEntity = getRoleByName(entity.getRoleEntity().getName());
+		entity.setRoleEntity(roleEntity);
+
 		return responsibleRepository.save(entity);
 	}
-	
+
 	@Transactional
-	public ResponsibleEntity editResponsible(ResponsibleEntity entity) {
+	public ResponsibleEntity editResponsible(String id, ResponsibleEntity entity) {
 		validateEncoder(entity.getLogin(), entity.getPassword());
+		
+		var responsibleEntityFound = getResponsibleById(id);
+		responsibleEntityFound.setLogin(entity.getLogin());
+		responsibleEntityFound.setName(entity.getName());
 		var encoder = crypt().encode(entity.getPassword());
-		entity.setPassword(encoder);
+		responsibleEntityFound.setPassword(encoder);
+		var roleEntity = getRoleByName(entity.getRoleEntity().getName());
+		responsibleEntityFound.setRoleEntity(roleEntity);
+
+		return responsibleRepository.save(responsibleEntityFound);
+	}
+	
+	public RoleEntity getRoleByName(String name) {
+		var roleEntity = roleRepository.findByName(name).orElseThrow(() -> {
+			throw new EntityNotFoundException("Role name not found");
+		});
 		
-		 var roleEntity = roleRepository.findByName(entity.getRoleEntity().getName()).orElseThrow(() -> {
-			 throw new EntityNotFoundException("Role name not found");
-		 });		 
-		 entity.setRoleEntity(roleEntity);
-		
-		return responsibleRepository.save(entity);
+		return roleEntity;
 	}
 
 	public Page<ResponsibleEntity> getAllResponsible(Pageable pageable) {
@@ -73,18 +81,12 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 	}
 
 	private void validateEncoder(String login, String password) {
-		//System.out.println(login);
-		//System.out.println(password);
 		var stream = responsibleRepository.findAll().stream();
-		//var matches = stream.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getLogin()));
-		
-		stream.forEach((val) -> {
-			//System.out.println(login.equals(val.getLogin()));
-			System.out.println(crypt().matches(password, val.getPassword()));
-		});
-		
-		//if (matches)
-			//throw new EntityBadRequestException("Login or password exists");
+		var matches = stream
+				.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getLogin()));
+
+		if (matches)
+			throw new EntityBadRequestException("Login or password exists");
 	}
 
 	private BCryptPasswordEncoder crypt() {
