@@ -37,7 +37,6 @@ public class ProjectController {
 		var entity = new ProjectEntity(dto);
 		var responsibleEntity = responsibleService.getResponsibleById(dto.getResponsibleId());
 		entity.setResponsibleEntity(responsibleEntity);
-		projectService.validateProject(entity);
 		return ResponseEntity.status(201).body(new ProjetcResponseDto(projectService.saveProject(entity)));
 	}
 
@@ -48,7 +47,6 @@ public class ProjectController {
 		var responsibleEntity = responsibleService.getResponsibleById(dto.getResponsibleId());
 		BeanUtils.copyProperties(dto, entity);
 		entity.setResponsibleEntity(responsibleEntity);
-		projectService.validateProject(entity);
 		return ResponseEntity.status(200).body(new ProjetcResponseDto(projectService.saveProject(entity)));
 	}
 

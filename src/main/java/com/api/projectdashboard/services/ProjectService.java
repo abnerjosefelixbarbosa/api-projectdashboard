@@ -18,10 +18,11 @@ public class ProjectService implements ProjectServiceInterface {
 	private ProjectRepository projectRepository;
 
 	public ProjectEntity saveProject(ProjectEntity entity) {
+		validateProject(entity);
 		return projectRepository.save(entity);
 	}
 
-	public void validateProject(ProjectEntity entity) {
+	private void validateProject(ProjectEntity entity) {
 		if (entity.getStartDate().isAfter(entity.getEndDate()) || entity.getStartDate().isEqual(entity.getEndDate()))
 			throw new EntityBadRequestException("Date invalidate");
 		if (entity.getBudget().scale() != 2)
