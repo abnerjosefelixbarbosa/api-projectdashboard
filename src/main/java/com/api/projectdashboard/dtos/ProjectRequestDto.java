@@ -28,7 +28,6 @@ public class ProjectRequestDto {
 	private LocalDate endDate;
 	@NotNull(message = "Budget is null")
 	private BigDecimal budget;
-	@NotEmpty(message = "Responsible id is empty")
 	@NotNull(message = "Responsible id is null")
 	private String responsibleId;
 }

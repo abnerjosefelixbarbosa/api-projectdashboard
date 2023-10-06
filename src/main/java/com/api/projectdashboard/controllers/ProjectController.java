@@ -1,6 +1,5 @@
 package com.api.projectdashboard.controllers;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,17 +36,16 @@ public class ProjectController {
 		var entity = new ProjectEntity(dto);
 		var responsibleEntity = responsibleService.getResponsibleById(dto.getResponsibleId());
 		entity.setResponsibleEntity(responsibleEntity);
+		
 		return ResponseEntity.status(201).body(new ProjetcResponseDto(projectService.saveProject(entity)));
 	}
 
 	@PutMapping(path = "/edit/{id}")
 	public ResponseEntity<ProjetcResponseDto> editProject(@PathVariable String id,
 			@RequestBody @Valid ProjectRequestDto dto) {
-		var entity = projectService.getProjectById(id);
-		var responsibleEntity = responsibleService.getResponsibleById(dto.getResponsibleId());
-		BeanUtils.copyProperties(dto, entity);
-		entity.setResponsibleEntity(responsibleEntity);
-		return ResponseEntity.status(200).body(new ProjetcResponseDto(projectService.saveProject(entity)));
+		var entity = new ProjectEntity(dto);
+		
+		return ResponseEntity.status(200).body(new ProjetcResponseDto(projectService.editProject(id, entity)));
 	}
 
 	@GetMapping(path = "/get-all")
