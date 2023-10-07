@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.projectdashboard.dtos.AuthenticationRequestDto;
 import com.api.projectdashboard.dtos.AuthenticationResponseDto;
+import com.api.projectdashboard.dtos.ResponsibleNameRequestDto;
 import com.api.projectdashboard.dtos.ResponsibleRequestDto;
 import com.api.projectdashboard.dtos.ResponsibleResponseDto;
 import com.api.projectdashboard.entities.ResponsibleEntity;
@@ -53,12 +54,19 @@ public class ResponsibleController {
 		var entity = new ResponsibleEntity(dto);
 		return ResponseEntity.status(201).body(new ResponsibleResponseDto(responsibleService.saveResponsible(entity)));
 	}
-
+	
 	@PutMapping(path = "/edit/{id}")
 	public ResponseEntity<ResponsibleResponseDto> editResponsible(@PathVariable String id,
 			@RequestBody @Valid ResponsibleRequestDto dto) {
 		var entity = new ResponsibleEntity(dto);
 		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsible(id, entity)));
+	}
+	
+	@PutMapping(path = "/edit-name/{id}")
+	public ResponseEntity<ResponsibleResponseDto> editResponsibleName(@PathVariable String id,
+			@RequestBody @Valid ResponsibleNameRequestDto dto) {
+		var entity = new ResponsibleEntity(dto);
+		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsibleName(id, entity)));
 	}
 
 	@GetMapping(path = "/get-all")

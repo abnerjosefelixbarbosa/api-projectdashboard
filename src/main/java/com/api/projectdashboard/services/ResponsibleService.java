@@ -52,7 +52,24 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 		return responsibleRepository.save(responsibleEntityFound);
 	}
 	
-	public RoleEntity getRoleByName(String name) {
+	@Transactional
+	public ResponsibleEntity editResponsibleName(String id, ResponsibleEntity entity) {
+		var responsibleEntityFound = getResponsibleById(id);
+		responsibleEntityFound.setName(entity.getName());
+
+		return responsibleRepository.save(responsibleEntityFound);
+	}
+	
+	private void validateEncoder(String login, String password) {
+		var stream = responsibleRepository.findAll().stream();
+		var matches = stream
+				.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getLogin()));
+
+		if (matches)
+			throw new EntityBadRequestException("Login or password exists");
+	}
+	
+	private RoleEntity getRoleByName(String name) {
 		var roleEntity = roleRepository.findByName(name).orElseThrow(() -> {
 			throw new EntityNotFoundException("Role name not found");
 		});
@@ -78,15 +95,6 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 		return responsibleRepository.findByLogin(login).orElseThrow(() -> {
 			throw new UsernameNotFoundException("Login not found");
 		});
-	}
-
-	private void validateEncoder(String login, String password) {
-		var stream = responsibleRepository.findAll().stream();
-		var matches = stream
-				.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getLogin()));
-
-		if (matches)
-			throw new EntityBadRequestException("Login or password exists");
 	}
 
 	private BCryptPasswordEncoder crypt() {
