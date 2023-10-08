@@ -1,31 +1,30 @@
 package com.api.projectdashboard.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.projectdashboard.dtos.AuthenticationRequestDto;
 import com.api.projectdashboard.dtos.AuthenticationResponseDto;
-import com.api.projectdashboard.dtos.ResponsibleNameRequestDto;
-import com.api.projectdashboard.dtos.ResponsibleRequestDto;
+import com.api.projectdashboard.dtos.ResponsibleEditRequestDto;
+import com.api.projectdashboard.dtos.ResponsibleLoginAndPasswordRequestDto;
 import com.api.projectdashboard.dtos.ResponsibleResponseDto;
+import com.api.projectdashboard.dtos.ResponsibleSaveRequestDto;
 import com.api.projectdashboard.entities.ResponsibleEntity;
 import com.api.projectdashboard.interfaces.ResponsibleServiceInterface;
 import com.api.projectdashboard.interfaces.TokenServiceInterface;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @RestController
@@ -40,7 +39,8 @@ public class ResponsibleController {
     private AuthenticationManager authenticationManager;
 	
 	@PostMapping(path = "/login")
-	public ResponseEntity<AuthenticationResponseDto> login(@RequestBody @Valid AuthenticationRequestDto dto, HttpSession session) {
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<AuthenticationResponseDto> loginResponsible(@RequestBody @Valid AuthenticationRequestDto dto) {
 		var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getLogin(), dto.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var responsible = (ResponsibleEntity) responsibleService.loadUserByUsername(dto.getLogin());
@@ -50,38 +50,30 @@ public class ResponsibleController {
 	}
 
 	@PostMapping(path = "/save")
-	public ResponseEntity<ResponsibleResponseDto> saveResponsible(@RequestBody @Valid ResponsibleRequestDto dto) {
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public ResponseEntity<ResponsibleResponseDto> saveResponsible(@RequestBody @Valid ResponsibleSaveRequestDto dto) {
 		var entity = new ResponsibleEntity(dto);
 		return ResponseEntity.status(201).body(new ResponsibleResponseDto(responsibleService.saveResponsible(entity)));
 	}
 	
 	@PutMapping(path = "/edit/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<ResponsibleResponseDto> editResponsible(@PathVariable String id,
-			@RequestBody @Valid ResponsibleRequestDto dto) {
+			@RequestBody @Valid ResponsibleEditRequestDto dto) {
 		var entity = new ResponsibleEntity(dto);
 		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsible(id, entity)));
 	}
 	
-	@PutMapping(path = "/edit-name/{id}")
-	public ResponseEntity<ResponsibleResponseDto> editResponsibleName(@PathVariable String id,
-			@RequestBody @Valid ResponsibleNameRequestDto dto) {
+	@PutMapping(path = "/edit-login-and-password/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<ResponsibleResponseDto> editResponsibleLoginAndPassword(@PathVariable String id,
+			@RequestBody @Valid ResponsibleLoginAndPasswordRequestDto dto) {
 		var entity = new ResponsibleEntity(dto);
-		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsibleName(id, entity)));
-	}
-
-	@GetMapping(path = "/get-all")
-	public ResponseEntity<Page<ResponsibleResponseDto>> getAllResponsibles(Pageable pageable) {
-		var entities = responsibleService.getAllResponsible(pageable);
-		return ResponseEntity.status(200).body(entities.map(ResponsibleResponseDto::new));
-	}
-
-	@GetMapping(path = "/get-by-id/{id}")
-	public ResponseEntity<ResponsibleResponseDto> getResponsibleById(@PathVariable String id) {
-		var entity = responsibleService.getResponsibleById(id);
-		return ResponseEntity.status(200).body(new ResponsibleResponseDto(entity));
+		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsibleLoginAndPassword(id, entity)));
 	}
 
 	@DeleteMapping(path = "/remove-by-id/{id}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public ResponseEntity<ResponsibleResponseDto> removeResponsibleById(@PathVariable String id) {
 		responsibleService.getResponsibleById(id);
 		responsibleService.removeResponsibleById(id);

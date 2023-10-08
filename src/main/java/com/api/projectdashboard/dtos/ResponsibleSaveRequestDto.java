@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponsibleRequestDto {
+public class ResponsibleSaveRequestDto {
 	@NotEmpty(message = "Name is empty")
 	@NotNull(message = "Name is null")
 	@Length(max = 100, message = "Name great than 100 characters")

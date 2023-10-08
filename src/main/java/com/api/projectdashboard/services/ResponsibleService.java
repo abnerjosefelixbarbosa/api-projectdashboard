@@ -28,7 +28,7 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 	@Transactional
 	public ResponsibleEntity saveResponsible(ResponsibleEntity entity) {
 		validateEncoder(entity.getLogin(), entity.getPassword());
-		
+
 		var encoder = crypt().encode(entity.getPassword());
 		entity.setPassword(encoder);
 		var roleEntity = getRoleByName(entity.getRoleEntity().getName());
@@ -39,27 +39,24 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 
 	@Transactional
 	public ResponsibleEntity editResponsible(String id, ResponsibleEntity entity) {
+		var responsibleEntityFound = getResponsibleById(id);
+		responsibleEntityFound.setName(entity.getName());
+
+		return responsibleRepository.save(responsibleEntityFound);
+	}
+
+	@Transactional
+	public ResponsibleEntity editResponsibleLoginAndPassword(String id, ResponsibleEntity entity) {
 		validateEncoder(entity.getLogin(), entity.getPassword());
-		
+
 		var responsibleEntityFound = getResponsibleById(id);
 		responsibleEntityFound.setLogin(entity.getLogin());
-		responsibleEntityFound.setName(entity.getName());
 		var encoder = crypt().encode(entity.getPassword());
 		responsibleEntityFound.setPassword(encoder);
-		var roleEntity = getRoleByName(entity.getRoleEntity().getName());
-		responsibleEntityFound.setRoleEntity(roleEntity);
 
 		return responsibleRepository.save(responsibleEntityFound);
 	}
-	
-	@Transactional
-	public ResponsibleEntity editResponsibleName(String id, ResponsibleEntity entity) {
-		var responsibleEntityFound = getResponsibleById(id);
-		responsibleEntityFound.setName(entity.getName());
 
-		return responsibleRepository.save(responsibleEntityFound);
-	}
-	
 	private void validateEncoder(String login, String password) {
 		var stream = responsibleRepository.findAll().stream();
 		var matches = stream
@@ -68,12 +65,12 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 		if (matches)
 			throw new EntityBadRequestException("Login or password exists");
 	}
-	
+
 	private RoleEntity getRoleByName(String name) {
 		var roleEntity = roleRepository.findByName(name).orElseThrow(() -> {
 			throw new EntityNotFoundException("Role name not found");
 		});
-		
+
 		return roleEntity;
 	}
 

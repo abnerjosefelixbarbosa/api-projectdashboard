@@ -1,5 +1,7 @@
 package com.api.projectdashboard.dtos;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,11 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequestDto {
-	@NotEmpty(message = "Login is empty")
-	@NotNull(message = "Login is null")
-	private String login;
-	@NotEmpty(message = "Password is empty")
-	@NotNull(message = "Password is null")
-	private String password;
+public class ResponsibleEditRequestDto {
+	@NotEmpty(message = "Name is empty")
+	@NotNull(message = "Name is null")
+	@Length(max = 100, message = "Name great than 100 characters")
+	private String name;
 }

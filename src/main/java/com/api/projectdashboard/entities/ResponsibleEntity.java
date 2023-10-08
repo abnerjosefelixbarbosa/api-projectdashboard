@@ -10,8 +10,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.api.projectdashboard.dtos.ResponsibleNameRequestDto;
-import com.api.projectdashboard.dtos.ResponsibleRequestDto;
+import com.api.projectdashboard.dtos.ResponsibleEditRequestDto;
+import com.api.projectdashboard.dtos.ResponsibleLoginAndPasswordRequestDto;
+import com.api.projectdashboard.dtos.ResponsibleSaveRequestDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,12 +51,16 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<ProjectEntity> projectEntities;
 
-	public ResponsibleEntity(ResponsibleRequestDto dto) {
+	public ResponsibleEntity(ResponsibleSaveRequestDto dto) {
 		this (null, dto.getName(), dto.getLogin(), dto.getPassword(), new RoleEntity(), null);
 		this.roleEntity.setName(dto.getRole());
 	}
 	
-	public ResponsibleEntity(ResponsibleNameRequestDto dto) {
+	public ResponsibleEntity(ResponsibleLoginAndPasswordRequestDto dto) {
+		this (null, null, dto.getLogin(), dto.getPassword(), new RoleEntity(), null);
+	}
+	
+	public ResponsibleEntity(ResponsibleEditRequestDto dto) {
 		this (null, dto.getName(), null, null, new RoleEntity(), null);
 	}
 
