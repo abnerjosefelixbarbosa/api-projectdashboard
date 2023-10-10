@@ -64,12 +64,12 @@ public class ResponsibleController {
 		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsible(id, entity)));
 	}
 	
-	@PutMapping(path = "/edit-login-and-password/{id}")
+	@PutMapping(path = "/edit-password/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<ResponsibleResponseDto> editResponsibleLoginAndPassword(@PathVariable String id,
 			@RequestBody @Valid ResponsibleEmailAndPasswordRequestDto dto) {
 		var entity = new ResponsibleEntity(dto);
-		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsibleLoginAndPassword(id, entity)));
+		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsiblePassword(id, entity)));
 	}
 
 	@DeleteMapping(path = "/remove-by-id/{id}")

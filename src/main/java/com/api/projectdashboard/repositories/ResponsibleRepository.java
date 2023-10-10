@@ -11,5 +11,5 @@ import com.api.projectdashboard.entities.ResponsibleEntity;
 
 @Repository
 public interface ResponsibleRepository extends JpaRepository<ResponsibleEntity, String> {
-	Optional<UserDetails> findByLogin(String login);
+	Optional<UserDetails> findByEmail(String email);
 }

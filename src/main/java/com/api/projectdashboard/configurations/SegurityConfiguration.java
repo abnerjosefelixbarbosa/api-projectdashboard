@@ -32,14 +32,21 @@ public class SegurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf((val) -> { 
-		    val.disable();
+		return http.csrf((csrf) -> { 
+			csrf.disable();
 		})
-		.authorizeHttpRequests((val) -> {
-			val.requestMatchers(AUTH_WHITELIST).permitAll();
-			val.anyRequest().permitAll();
+		.headers((header) -> {
+			header.frameOptions((frame) -> {
+				frame.sameOrigin();
+			});
+		})		
+		.authorizeHttpRequests((auth) -> {
+			auth.requestMatchers(AUTH_WHITELIST).permitAll();
+			auth.anyRequest().permitAll();
 		})
-		.sessionManagement((val) -> val.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+		.sessionManagement((session) -> {
+			session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		})
 		.httpBasic(Customizer.withDefaults())
 		.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
 		.build();
@@ -69,6 +76,7 @@ public class SegurityConfiguration {
 	}
 	
 	private static final AntPathRequestMatcher[] AUTH_WHITELIST = {
+			AntPathRequestMatcher.antMatcher("/h2-console/**"),
 			AntPathRequestMatcher.antMatcher("/api/v1/auth/**"),
 			AntPathRequestMatcher.antMatcher("/v3/api-docs/**"),
 			AntPathRequestMatcher.antMatcher("/v3/api-docs.yaml"),

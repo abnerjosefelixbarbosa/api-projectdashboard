@@ -46,24 +46,32 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 	}
 
 	@Transactional
-	public ResponsibleEntity editResponsibleLoginAndPassword(String id, ResponsibleEntity entity) {
-		validateEncoder(entity.getEmail(), entity.getPassword());
+	public ResponsibleEntity editResponsiblePassword(String id, ResponsibleEntity entity) {
+		validatePassword(entity.getPassword());
 
 		var responsibleEntityFound = getResponsibleById(id);
-		responsibleEntityFound.setEmail(entity.getEmail());
 		var encoder = crypt().encode(entity.getPassword());
 		responsibleEntityFound.setPassword(encoder);
 
 		return responsibleRepository.save(responsibleEntityFound);
 	}
-
-	private void validateEncoder(String login, String password) {
-		var stream = responsibleRepository.findAll().stream();
+	
+	private void validatePassword(String password) {
+		var stream = responsibleRepository.findAll().stream();		
 		var matches = stream
-				.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getEmail()));
+				.anyMatch((val) -> crypt().matches(password, val.getPassword()));
 
 		if (matches)
-			throw new EntityBadRequestException("Login or password exists");
+			throw new EntityBadRequestException("Password exists");
+	}
+
+	private void validateEncoder(String email, String password) {
+		var stream = responsibleRepository.findAll().stream();
+		var matches = stream
+				.anyMatch((val) -> crypt().matches(password, val.getPassword()) || email.equals(val.getEmail()));
+
+		if (matches)
+			throw new EntityBadRequestException("Email or password exists");
 	}
 
 	private RoleEntity getRoleByName(String name) {
@@ -88,9 +96,9 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 		responsibleRepository.deleteById(id);
 	}
 
-	public UserDetails loadUserByUsername(String login) {
-		return responsibleRepository.findByLogin(login).orElseThrow(() -> {
-			throw new UsernameNotFoundException("Login not found");
+	public UserDetails loadUserByUsername(String email) {
+		return responsibleRepository.findByEmail(email).orElseThrow(() -> {
+			throw new UsernameNotFoundException("Email not found");
 		});
 	}
 
