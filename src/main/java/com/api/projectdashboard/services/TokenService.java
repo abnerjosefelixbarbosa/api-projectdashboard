@@ -22,7 +22,7 @@ public class TokenService implements TokenServiceInterface {
 	            Algorithm algorithm = Algorithm.HMAC256(SECRET);
 	            String token = JWT.create()
 	                    .withIssuer("auth-api")
-	                    .withSubject(entity.getLogin())
+	                    .withSubject(entity.getEmail())
 	                    .withExpiresAt(genExpirationDate())
 	                    .sign(algorithm);
 	            return token;

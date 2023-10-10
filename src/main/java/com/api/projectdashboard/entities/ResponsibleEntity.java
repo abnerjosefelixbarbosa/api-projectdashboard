@@ -41,7 +41,7 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	@Column(nullable = false, length = 100)
 	private String name;
 	@Column(nullable = false, unique = true, length = 100)
-	private String login;
+	private String email;
 	@Column(nullable = false, unique = true, length = 100)
 	private String password;
 	@ManyToOne
@@ -52,12 +52,12 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	private List<ProjectEntity> projectEntities;
 
 	public ResponsibleEntity(ResponsibleSaveRequestDto dto) {
-		this (null, dto.getName(), dto.getLogin(), dto.getPassword(), new RoleEntity(), null);
+		this (null, dto.getName(), dto.getEmail(), dto.getPassword(), new RoleEntity(), null);
 		this.roleEntity.setName(dto.getRole());
 	}
 	
 	public ResponsibleEntity(ResponsibleLoginAndPasswordRequestDto dto) {
-		this (null, null, dto.getLogin(), dto.getPassword(), new RoleEntity(), null);
+		this (null, null, dto.getEmail(), dto.getPassword(), new RoleEntity(), null);
 	}
 	
 	public ResponsibleEntity(ResponsibleEditRequestDto dto) {
@@ -74,7 +74,7 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 
 	@Override
 	public String getUsername() {
-		return login;
+		return email;
 	}
 
 	@Override

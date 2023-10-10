@@ -27,7 +27,7 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 
 	@Transactional
 	public ResponsibleEntity saveResponsible(ResponsibleEntity entity) {
-		validateEncoder(entity.getLogin(), entity.getPassword());
+		validateEncoder(entity.getEmail(), entity.getPassword());
 
 		var encoder = crypt().encode(entity.getPassword());
 		entity.setPassword(encoder);
@@ -47,10 +47,10 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 
 	@Transactional
 	public ResponsibleEntity editResponsibleLoginAndPassword(String id, ResponsibleEntity entity) {
-		validateEncoder(entity.getLogin(), entity.getPassword());
+		validateEncoder(entity.getEmail(), entity.getPassword());
 
 		var responsibleEntityFound = getResponsibleById(id);
-		responsibleEntityFound.setLogin(entity.getLogin());
+		responsibleEntityFound.setEmail(entity.getEmail());
 		var encoder = crypt().encode(entity.getPassword());
 		responsibleEntityFound.setPassword(encoder);
 
@@ -60,7 +60,7 @@ public class ResponsibleService implements ResponsibleServiceInterface {
 	private void validateEncoder(String login, String password) {
 		var stream = responsibleRepository.findAll().stream();
 		var matches = stream
-				.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getLogin()));
+				.anyMatch((val) -> crypt().matches(password, val.getPassword()) || login.equals(val.getEmail()));
 
 		if (matches)
 			throw new EntityBadRequestException("Login or password exists");

@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class ResponsibleLoginAndPasswordRequestDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private String login;
+	private String email;
 	private String password;
 }
