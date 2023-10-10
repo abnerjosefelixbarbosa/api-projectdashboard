@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponsibleEmailAndPasswordRequestDto implements Serializable {
+public class ResponsiblePasswordRequestDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private String email;
 	private String password;
 }
