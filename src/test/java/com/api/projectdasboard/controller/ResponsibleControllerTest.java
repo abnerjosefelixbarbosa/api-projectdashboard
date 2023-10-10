@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.api.projectdashboard.ProjectDashboardApplication;
 import com.api.projectdashboard.dtos.AuthenticationRequestDto;
 import com.api.projectdashboard.dtos.ResponsibleEditRequestDto;
-import com.api.projectdashboard.dtos.ResponsibleLoginAndPasswordRequestDto;
+import com.api.projectdashboard.dtos.ResponsibleEmailAndPasswordRequestDto;
 import com.api.projectdashboard.dtos.ResponsibleSaveRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -58,7 +58,7 @@ public class ResponsibleControllerTest {
 	@Test
 	@Disabled
 	public void editResponsibleLoignAndPassword() throws Exception {
-		var dto = new ResponsibleLoginAndPasswordRequestDto("login2", "password2");
+		var dto = new ResponsibleEmailAndPasswordRequestDto("login2", "password2");
 
 		mvc.perform(put("/responsibles/edit-login-and-password/dee1a11e-e1e6-4b51-9649-2404e74bdee6")
 				.contentType("application/json").content(mapper.writeValueAsString(dto))).andDo(print())

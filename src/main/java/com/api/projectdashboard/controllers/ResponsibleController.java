@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.projectdashboard.dtos.AuthenticationRequestDto;
 import com.api.projectdashboard.dtos.AuthenticationResponseDto;
 import com.api.projectdashboard.dtos.ResponsibleEditRequestDto;
-import com.api.projectdashboard.dtos.ResponsibleLoginAndPasswordRequestDto;
+import com.api.projectdashboard.dtos.ResponsibleEmailAndPasswordRequestDto;
 import com.api.projectdashboard.dtos.ResponsibleResponseDto;
 import com.api.projectdashboard.dtos.ResponsibleSaveRequestDto;
 import com.api.projectdashboard.entities.ResponsibleEntity;
@@ -67,7 +67,7 @@ public class ResponsibleController {
 	@PutMapping(path = "/edit-login-and-password/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<ResponsibleResponseDto> editResponsibleLoginAndPassword(@PathVariable String id,
-			@RequestBody @Valid ResponsibleLoginAndPasswordRequestDto dto) {
+			@RequestBody @Valid ResponsibleEmailAndPasswordRequestDto dto) {
 		var entity = new ResponsibleEntity(dto);
 		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsibleLoginAndPassword(id, entity)));
 	}

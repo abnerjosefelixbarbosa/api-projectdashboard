@@ -11,7 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.api.projectdashboard.dtos.ResponsibleEditRequestDto;
-import com.api.projectdashboard.dtos.ResponsibleLoginAndPasswordRequestDto;
+import com.api.projectdashboard.dtos.ResponsibleEmailAndPasswordRequestDto;
 import com.api.projectdashboard.dtos.ResponsibleSaveRequestDto;
 
 import jakarta.persistence.Column;
@@ -56,7 +56,7 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 		this.roleEntity.setName(dto.getRole());
 	}
 	
-	public ResponsibleEntity(ResponsibleLoginAndPasswordRequestDto dto) {
+	public ResponsibleEntity(ResponsibleEmailAndPasswordRequestDto dto) {
 		this (null, null, dto.getEmail(), dto.getPassword(), new RoleEntity(), null);
 	}
 	
