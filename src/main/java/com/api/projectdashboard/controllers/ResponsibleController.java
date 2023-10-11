@@ -41,9 +41,9 @@ public class ResponsibleController {
 	@PostMapping(path = "/login")
 	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<AuthenticationResponseDto> loginResponsible(@RequestBody @Valid AuthenticationRequestDto dto) {
-		var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getLogin(), dto.getPassword());
+		var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        var responsible = (ResponsibleEntity) responsibleService.loadUserByUsername(dto.getLogin());
+        var responsible = (ResponsibleEntity) responsibleService.loadUserByUsername(dto.getEmail());
         
         var token = tokenService.generateToken((ResponsibleEntity) auth.getPrincipal());
         return ResponseEntity.status(200).body(new AuthenticationResponseDto(responsible, token));
@@ -66,7 +66,7 @@ public class ResponsibleController {
 	
 	@PutMapping(path = "/edit-password/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<ResponsibleResponseDto> editResponsibleLoginAndPassword(@PathVariable String id,
+	public ResponseEntity<ResponsibleResponseDto> editResponsiblePassword(@PathVariable String id,
 			@RequestBody @Valid ResponsiblePasswordRequestDto dto) {
 		var entity = new ResponsibleEntity(dto);
 		return ResponseEntity.status(200).body(new ResponsibleResponseDto(responsibleService.editResponsiblePassword(id, entity)));

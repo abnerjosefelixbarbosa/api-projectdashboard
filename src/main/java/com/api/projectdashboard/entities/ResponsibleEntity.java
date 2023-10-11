@@ -38,11 +38,11 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false)
 	private String name;
-	@Column(nullable = false, unique = true, length = 100)
+	@Column(nullable = false, unique = true)
 	private String email;
-	@Column(nullable = false, unique = true, length = 100)
+	@Column(nullable = false, unique = true)
 	private String password;
 	@ManyToOne
 	@JoinColumn(name = "role_id", nullable = false)
@@ -52,16 +52,20 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 	private List<ProjectEntity> projectEntities;
 
 	public ResponsibleEntity(ResponsibleSaveRequestDto dto) {
-		this (null, dto.getName(), dto.getEmail(), dto.getPassword(), new RoleEntity(), null);
+		this.roleEntity = new RoleEntity();
+		this.setName(dto.getName());
+		this.setPassword(dto.getPassword());
 		this.roleEntity.setName(dto.getRole());
 	}
 	
 	public ResponsibleEntity(ResponsiblePasswordRequestDto dto) {
-		this (null, null, null, dto.getPassword(), new RoleEntity(), null);
+		this.roleEntity = new RoleEntity();
+		this.setPassword(dto.getPassword());
 	}
 	
 	public ResponsibleEntity(ResponsibleEditRequestDto dto) {
-		this (null, dto.getName(), null, null, new RoleEntity(), null);
+		this.roleEntity = new RoleEntity();
+		this.setName(dto.getName());
 	}
 
 	@Override

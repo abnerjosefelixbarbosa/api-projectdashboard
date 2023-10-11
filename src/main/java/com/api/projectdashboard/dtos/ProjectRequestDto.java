@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class ProjectRequestDto {
 	@NotEmpty(message = "Name is empty")
 	@NotNull(message = "Name is null")
-	@Length(max = 100, message = "Name longer than 100 characters")
+	@Length(max = 100, message = "Name is max 100")
 	private String name;
 	@NotNull(message = "Date is null")
 	@FutureOrPresent(message = "Date is invalid")

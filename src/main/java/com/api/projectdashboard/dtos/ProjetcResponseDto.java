@@ -23,7 +23,11 @@ public class ProjetcResponseDto {
 	private String responsibleId;
 	
 	public ProjetcResponseDto(ProjectEntity entity) {
-		this(entity.getId(), entity.getName(), entity.getStartDate(), entity.getEndDate(), entity.getBudget(),
-				entity.getResponsibleEntity().getId());
+		this.id = entity.getId();
+		this.name = entity.getName();
+		this.startDate = entity.getStartDate();
+		this.endDate = entity.getEndDate();
+		this.budget = entity.getBudget();
+		this.responsibleId = entity.getResponsibleEntity().getId();
 	}
 }

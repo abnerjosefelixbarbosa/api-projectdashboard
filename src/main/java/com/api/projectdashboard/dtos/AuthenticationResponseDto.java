@@ -17,6 +17,9 @@ public class AuthenticationResponseDto {
 	private String token;
 	
 	public AuthenticationResponseDto(ResponsibleEntity entity, String token) {
-		this (entity.getId(), entity.getName(), entity.getEmail(), null, token);
+		this.id = entity.getId();
+		this.name = entity.getName();
+		this.email = entity.getEmail();
+		this.token = token;
 	}
 }

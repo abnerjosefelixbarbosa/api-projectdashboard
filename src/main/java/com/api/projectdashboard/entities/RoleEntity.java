@@ -25,7 +25,7 @@ public class RoleEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
-	@Column(nullable = false, unique = true, length = 50)
+	@Column(nullable = false, unique = true)
 	private String name;
 	@OneToMany(mappedBy = "roleEntity")
 	private List<ResponsibleEntity> responsibleEntities;

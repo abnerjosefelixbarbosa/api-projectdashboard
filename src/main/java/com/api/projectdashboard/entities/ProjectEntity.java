@@ -29,20 +29,24 @@ public class ProjectEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false)
 	private String name;
 	@Column(nullable = false)
 	private LocalDate startDate;
 	@Column(nullable = false)
 	private LocalDate endDate;
-	@Column(nullable = false, scale = 2)
+	@Column(nullable = false)
 	private BigDecimal budget;
 	@ManyToOne
 	@JoinColumn(name = "responsible_id", nullable = false)
 	private ResponsibleEntity responsibleEntity;
 
 	public ProjectEntity(ProjectRequestDto dto) {
-		this(null, dto.getName(), dto.getStartDate(), dto.getEndDate(), dto.getBudget(), new ResponsibleEntity());
+		this.name = dto.getName();
+		this.startDate = dto.getStartDate();
+		this.endDate = dto.getEndDate();
+		this.budget = dto.getBudget();
+		this.responsibleEntity = new ResponsibleEntity();
 		this.responsibleEntity.setId(dto.getResponsibleId());
 	}
 }
