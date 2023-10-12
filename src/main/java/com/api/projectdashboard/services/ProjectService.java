@@ -45,23 +45,20 @@ public class ProjectService implements ProjectServiceInterface {
 		if (entity.getBudget().longValue() == 0) 
 			throw new EntityBadRequestException("Budget is 0");
 	}
-
-	public Page<ProjectEntity> getAllProjects(Pageable pageable) {
-		return projectRepository.findAll(pageable);
-	}
 	
 	public Page<ProjectEntity> getAllProjectsByResponsibleId(String id, Pageable pageable) {
 		responsibleService.getResponsibleById(id);		
 		return projectRepository.findAllByResponsibleEntityId(id, pageable);
 	}
-
-	public ProjectEntity getProjectById(String id) {
+	
+	private ProjectEntity getProjectById(String id) {
 		return projectRepository.findById(id).orElseThrow(() -> {
 			throw new EntityNotFoundException("Project id not find");
 		});
 	}
 
 	public void removeProjectById(String id) {
+		getProjectById(id);
 		projectRepository.deleteById(id);
 	}
 }

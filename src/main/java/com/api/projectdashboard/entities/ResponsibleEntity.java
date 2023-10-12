@@ -53,7 +53,8 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 
 	public ResponsibleEntity(ResponsibleSaveRequestDto dto) {
 		this.roleEntity = new RoleEntity();
-		this.setName(dto.getName());
+		this.name = dto.getName();
+		this.email = dto.getEmail();
 		this.setPassword(dto.getPassword());
 		this.roleEntity.setName(dto.getRole());
 	}

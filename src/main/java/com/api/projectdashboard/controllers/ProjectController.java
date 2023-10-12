@@ -60,7 +60,6 @@ public class ProjectController {
 	@DeleteMapping(path = "/remove-by-id/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public ResponseEntity<ProjetcResponseDto> removeProjectById(@PathVariable String id) {
-		projectService.getProjectById(id);
 		projectService.removeProjectById(id);
 		return ResponseEntity.status(204).body(null);
 	}
