@@ -55,18 +55,18 @@ public class ResponsibleEntity implements Serializable, UserDetails {
 		this.roleEntity = new RoleEntity();
 		this.name = dto.getName();
 		this.email = dto.getEmail();
-		this.setPassword(dto.getPassword());
+		this.password = dto.getPassword();
 		this.roleEntity.setName(dto.getRole());
 	}
 	
 	public ResponsibleEntity(ResponsiblePasswordRequestDto dto) {
 		this.roleEntity = new RoleEntity();
-		this.setPassword(dto.getPassword());
+		this.password = dto.getPassword();
 	}
 	
 	public ResponsibleEntity(ResponsibleEditRequestDto dto) {
 		this.roleEntity = new RoleEntity();
-		this.setName(dto.getName());
+		this.name = dto.getName();
 	}
 
 	@Override

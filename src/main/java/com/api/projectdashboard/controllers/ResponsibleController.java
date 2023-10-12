@@ -43,8 +43,7 @@ public class ResponsibleController {
 	public ResponseEntity<AuthenticationResponseDto> loginResponsible(@RequestBody @Valid AuthenticationRequestDto dto) {
 		var usernamePassword = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        var responsible = (ResponsibleEntity) responsibleService.loadUserByUsername(dto.getEmail());
-        
+        var responsible = (ResponsibleEntity) responsibleService.loadUserByUsername(dto.getEmail());        
         var token = tokenService.generateToken((ResponsibleEntity) auth.getPrincipal());
         return ResponseEntity.status(200).body(new AuthenticationResponseDto(responsible, token));
 	}

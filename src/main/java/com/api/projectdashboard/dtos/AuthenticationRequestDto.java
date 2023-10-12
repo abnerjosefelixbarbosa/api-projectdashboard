@@ -18,5 +18,6 @@ public class AuthenticationRequestDto {
 	@NotEmpty(message = "Password is empty")
 	@NotNull(message = "Password is null")
 	@Length(min = 20, message = "Password is min 20 length")
+	@Length(max = 20, message = "Password is max 20 length")
 	private String password;
 }

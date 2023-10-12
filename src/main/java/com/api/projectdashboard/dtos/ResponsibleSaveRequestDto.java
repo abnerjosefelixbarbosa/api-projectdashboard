@@ -21,6 +21,7 @@ public class ResponsibleSaveRequestDto {
 	private String email;
 	@NotEmpty(message = "Password is empty")
 	@NotNull(message = "Password is null")
+	@Length(min = 20, message = "Passwor is min 20 length")
 	@Length(max = 20, message = "Passwor is max 20 length")
 	private String password;
 	@NotEmpty(message = "Role is empty")

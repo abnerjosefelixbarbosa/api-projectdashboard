@@ -50,15 +50,15 @@ public class ProjectService implements ProjectServiceInterface {
 		responsibleService.getResponsibleById(id);		
 		return projectRepository.findAllByResponsibleEntityId(id, pageable);
 	}
+
+	public void removeProjectById(String id) {
+		getProjectById(id);
+		projectRepository.deleteById(id);
+	}
 	
 	private ProjectEntity getProjectById(String id) {
 		return projectRepository.findById(id).orElseThrow(() -> {
 			throw new EntityNotFoundException("Project id not find");
 		});
-	}
-
-	public void removeProjectById(String id) {
-		getProjectById(id);
-		projectRepository.deleteById(id);
 	}
 }
