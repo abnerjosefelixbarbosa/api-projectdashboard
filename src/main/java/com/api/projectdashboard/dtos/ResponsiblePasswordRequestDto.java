@@ -18,7 +18,6 @@ public class ResponsiblePasswordRequestDto implements Serializable {
 	
 	@NotNull(message = "Password is null")
 	@NotEmpty(message = "Password is empty")
-	@Length(min = 20, message = "Password is min 20 length")
 	@Length(max = 20, message = "Password is max 20 length")
 	private String password;
 }
