@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class ResponsibleEditRequestDto {
 	@NotEmpty(message = "Name is empty")
 	@NotNull(message = "Name is null")
-	@Length(max = 100, message = "Name great than 100 characters")
+	@Length(max = 100, message = "Name is max 100 length")
 	private String name;
 }

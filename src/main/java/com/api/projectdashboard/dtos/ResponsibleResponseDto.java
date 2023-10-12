@@ -16,6 +16,9 @@ public class ResponsibleResponseDto {
 	private String password;
 	
 	public ResponsibleResponseDto(ResponsibleEntity entity) {
-		this(entity.getId(),entity.getName(),entity.getEmail(), entity.getPassword());
+		this.id = entity.getId();
+		this.name = entity.getName();
+		this.email = entity.getEmail();
+		this.password =entity.getEmail();
 	}
 }

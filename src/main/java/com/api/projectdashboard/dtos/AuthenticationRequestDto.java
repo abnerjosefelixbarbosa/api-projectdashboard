@@ -17,6 +17,6 @@ public class AuthenticationRequestDto {
 	private String email;
 	@NotEmpty(message = "Password is empty")
 	@NotNull(message = "Password is null")
-	@Length(min = 20, message = "Password is min 20")
+	@Length(min = 20, message = "Password is min 20 length")
 	private String password;
 }

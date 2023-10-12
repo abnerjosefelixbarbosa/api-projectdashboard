@@ -41,7 +41,7 @@ public class ProjectService implements ProjectServiceInterface {
 		if (entity.getStartDate().isAfter(entity.getEndDate()) || entity.getStartDate().isEqual(entity.getEndDate()))
 			throw new EntityBadRequestException("Date invalidate");
 		if (entity.getBudget().scale() != 2)
-			throw new EntityBadRequestException("Scale different than 2");
+			throw new EntityBadRequestException("Budget is different than 2 scales");
 		if (entity.getBudget().longValue() == 0) 
 			throw new EntityBadRequestException("Budget is 0");
 	}
@@ -51,8 +51,7 @@ public class ProjectService implements ProjectServiceInterface {
 	}
 	
 	public Page<ProjectEntity> getAllProjectsByResponsibleId(String id, Pageable pageable) {
-		responsibleService.getResponsibleById(id);
-		
+		responsibleService.getResponsibleById(id);		
 		return projectRepository.findAllByResponsibleEntityId(id, pageable);
 	}
 

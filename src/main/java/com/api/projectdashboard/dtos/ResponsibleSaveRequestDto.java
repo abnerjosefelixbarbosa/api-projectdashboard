@@ -15,15 +15,13 @@ import lombok.NoArgsConstructor;
 public class ResponsibleSaveRequestDto {
 	@NotEmpty(message = "Name is empty")
 	@NotNull(message = "Name is null")
-	@Length(max = 100, message = "Name great than 100 characters")
+	@Length(max = 100, message = "Name is max 100 length")
 	private String name;
-	//@NotEmpty(message = "Login is empty")
-	//@NotNull(message = "Login is null")
 	@Email(message = "Email is invalid")
 	private String email;
 	@NotEmpty(message = "Password is empty")
 	@NotNull(message = "Password is null")
-	@Length(max = 100, message = "Passwor great than 100 characters")
+	@Length(max = 20, message = "Passwor is max 20 length")
 	private String password;
 	@NotEmpty(message = "Role is empty")
 	@NotNull(message = "Role is null")
