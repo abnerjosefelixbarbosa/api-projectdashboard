@@ -1,4 +1,4 @@
-package com.api.projectdashboard.exceptions;
+package com.api.projectdashboard.controllers;
 
 public class EntityBadRequestException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

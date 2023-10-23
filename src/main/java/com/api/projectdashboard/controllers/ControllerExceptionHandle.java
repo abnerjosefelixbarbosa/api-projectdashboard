@@ -1,4 +1,4 @@
-package com.api.projectdashboard.exceptions;
+package com.api.projectdashboard.controllers;
 
 import java.time.Instant;
 import java.util.HashMap;

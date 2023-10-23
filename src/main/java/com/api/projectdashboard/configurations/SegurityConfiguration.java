@@ -42,7 +42,7 @@ public class SegurityConfiguration {
 		})		
 		.authorizeHttpRequests((auth) -> {
 			auth.requestMatchers(AUTH_WHITELIST).permitAll();
-			auth.anyRequest().permitAll();
+			auth.anyRequest().authenticated();
 		})
 		.sessionManagement((session) -> {
 			session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -83,6 +83,7 @@ public class SegurityConfiguration {
 			AntPathRequestMatcher.antMatcher("/swagger-ui/**"),
 			AntPathRequestMatcher.antMatcher("/swagger-ui.html"),
 			AntPathRequestMatcher.antMatcher("/responsibles/save"),
-			AntPathRequestMatcher.antMatcher("/responsibles/login")
+			AntPathRequestMatcher.antMatcher("/responsibles/login"),
+			AntPathRequestMatcher.antMatcher("/responsibles/edit-password")
 	};
 }

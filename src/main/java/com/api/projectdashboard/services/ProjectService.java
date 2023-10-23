@@ -5,8 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.api.projectdashboard.controllers.EntityBadRequestException;
 import com.api.projectdashboard.entities.ProjectEntity;
-import com.api.projectdashboard.exceptions.EntityBadRequestException;
 import com.api.projectdashboard.interfaces.ProjectServiceInterface;
 import com.api.projectdashboard.interfaces.ResponsibleServiceInterface;
 import com.api.projectdashboard.repositories.ProjectRepository;
