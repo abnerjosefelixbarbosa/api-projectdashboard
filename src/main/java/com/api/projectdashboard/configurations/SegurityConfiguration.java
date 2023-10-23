@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.api.projectdashboard.interfaces.ResponsibleServiceInterface;
+import com.api.projectdashboard.services.ResponsibleServiceInterface;
 
 @Configuration
 @EnableWebSecurity

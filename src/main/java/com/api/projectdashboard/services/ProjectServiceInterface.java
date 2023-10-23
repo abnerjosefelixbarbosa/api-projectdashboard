@@ -1,4 +1,4 @@
-package com.api.projectdashboard.interfaces;
+package com.api.projectdashboard.services;
 
 public interface ProjectServiceInterface extends ProjectInterface {
 	

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.api.projectdashboard.controllers.EntityBadRequestException;
 import com.api.projectdashboard.entities.ResponsibleEntity;
 import com.api.projectdashboard.entities.RoleEntity;
-import com.api.projectdashboard.interfaces.ResponsibleServiceInterface;
 import com.api.projectdashboard.repositories.ResponsibleRepository;
 import com.api.projectdashboard.repositories.RoleRepository;
 
