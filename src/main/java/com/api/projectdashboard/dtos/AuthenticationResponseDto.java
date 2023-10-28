@@ -13,12 +13,14 @@ public class AuthenticationResponseDto {
 	private String id;
 	private String name;
 	private String email;
+	private String password;
 	private String token;
 	
 	public AuthenticationResponseDto(ResponsibleEntity entity, String token) {
 		this.id = entity.getId();
 		this.name = entity.getName();
 		this.email = entity.getEmail();
+		this.password = null;
 		this.token = token;
 	}
 }
