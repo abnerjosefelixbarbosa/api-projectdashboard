@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.api.projectdashboard.controllers.EntityBadRequestException;
+import com.api.projectdashboard.controllers.exception.EntityBadRequestException;
 import com.api.projectdashboard.entities.ProjectEntity;
 import com.api.projectdashboard.repositories.ProjectRepository;
+import com.api.projectdashboard.services.interfaces.ProjectServiceInterface;
+import com.api.projectdashboard.services.interfaces.ResponsibleServiceInterface;
 
 import jakarta.persistence.EntityNotFoundException;
 

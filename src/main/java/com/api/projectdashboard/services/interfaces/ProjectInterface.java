@@ -1,4 +1,4 @@
-package com.api.projectdashboard.services;
+package com.api.projectdashboard.services.interfaces;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

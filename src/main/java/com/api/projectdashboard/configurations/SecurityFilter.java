@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.api.projectdashboard.repositories.ResponsibleRepository;
-import com.api.projectdashboard.services.TokenServiceInterface;
+import com.api.projectdashboard.services.interfaces.TokenServiceInterface;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

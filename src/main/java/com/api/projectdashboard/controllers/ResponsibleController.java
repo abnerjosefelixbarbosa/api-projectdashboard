@@ -22,8 +22,8 @@ import com.api.projectdashboard.dtos.ResponsiblePasswordRequestDto;
 import com.api.projectdashboard.dtos.ResponsibleResponseDto;
 import com.api.projectdashboard.dtos.ResponsibleSaveRequestDto;
 import com.api.projectdashboard.entities.ResponsibleEntity;
-import com.api.projectdashboard.services.ResponsibleServiceInterface;
-import com.api.projectdashboard.services.TokenServiceInterface;
+import com.api.projectdashboard.services.interfaces.ResponsibleServiceInterface;
+import com.api.projectdashboard.services.interfaces.TokenServiceInterface;
 
 import jakarta.validation.Valid;
 

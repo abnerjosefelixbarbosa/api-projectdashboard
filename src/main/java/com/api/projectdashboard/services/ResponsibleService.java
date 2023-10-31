@@ -6,11 +6,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.api.projectdashboard.controllers.EntityBadRequestException;
+import com.api.projectdashboard.controllers.exception.EntityBadRequestException;
 import com.api.projectdashboard.entities.ResponsibleEntity;
 import com.api.projectdashboard.entities.RoleEntity;
 import com.api.projectdashboard.repositories.ResponsibleRepository;
 import com.api.projectdashboard.repositories.RoleRepository;
+import com.api.projectdashboard.services.interfaces.ResponsibleServiceInterface;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

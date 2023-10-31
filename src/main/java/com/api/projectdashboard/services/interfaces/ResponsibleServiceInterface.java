@@ -1,4 +1,4 @@
-package com.api.projectdashboard.services;
+package com.api.projectdashboard.services.interfaces;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

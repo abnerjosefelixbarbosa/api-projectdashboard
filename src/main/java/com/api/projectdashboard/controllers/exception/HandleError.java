@@ -1,4 +1,4 @@
-package com.api.projectdashboard.controllers;
+package com.api.projectdashboard.controllers.exception;
 
 import lombok.Data;
 

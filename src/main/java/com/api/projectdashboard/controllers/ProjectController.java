@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.projectdashboard.dtos.ProjectRequestDto;
 import com.api.projectdashboard.dtos.ProjetcResponseDto;
 import com.api.projectdashboard.entities.ProjectEntity;
-import com.api.projectdashboard.services.ProjectServiceInterface;
-import com.api.projectdashboard.services.ResponsibleServiceInterface;
+import com.api.projectdashboard.services.interfaces.ProjectServiceInterface;
+import com.api.projectdashboard.services.interfaces.ResponsibleServiceInterface;
 
 import jakarta.validation.Valid;
 

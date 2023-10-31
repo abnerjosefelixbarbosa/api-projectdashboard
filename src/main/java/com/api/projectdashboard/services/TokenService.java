@@ -7,6 +7,7 @@ import java.time.ZoneOffset;
 import org.springframework.stereotype.Service;
 
 import com.api.projectdashboard.entities.ResponsibleEntity;
+import com.api.projectdashboard.services.interfaces.TokenServiceInterface;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
